@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yalla Sahel | Beach Operations & Growth Platform</title>
+  <title>Yalla Sahel | Beach Operations Platform</title>
   <meta name="description" content="Yalla Sahel is a beach operations and growth platform for reservations, QR check-in, memberships, events, digital menus and coastal growth.">
+  <link rel="icon" type="image/svg+xml" href="assets/yallasahel-logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -28,6 +29,10 @@
 
     * {
       box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
     }
 
     html {
@@ -1110,9 +1115,64 @@
       gap: 12px;
     }
 
+    .screenshot-carousel {
+      display: flex;
+      gap: 12px;
+      max-width: 980px;
+      margin: 0 auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .screenshot-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screenshot-carousel .preview-card {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+    }
+
+    .carousel-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-align: center;
+    }
+
     .preview-card {
       padding: 12px;
       border-radius: 18px;
+    }
+
+    .preview-media {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      border-radius: 13px;
+      background: transparent;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .preview-media:hover .preview-image {
+      transform: scale(1.025);
+    }
+
+    .preview-image {
+      display: block;
+      width: 100%;
+      min-height: 130px;
+      aspect-ratio: 16 / 9;
+      border-radius: 13px;
+      object-fit: cover;
+      object-position: top center;
+      background: linear-gradient(145deg, #eef7ff, #dfefff);
+      transition: transform 180ms ease;
     }
 
     .preview-visual {
@@ -1174,6 +1234,106 @@
       margin: 12px 2px 2px;
       font-size: 0.94rem;
       font-weight: 600;
+    }
+
+    .demo-caption .btn {
+      margin-top: 14px;
+    }
+
+    .metric-modules {
+      font-size: 0.93rem !important;
+      line-height: 1.32 !important;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .module-card {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 76px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 10px 26px rgba(8, 66, 130, 0.06);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .module-card .icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+    }
+
+    .module-card .icon-box svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .image-preview-modal {
+      position: fixed;
+      z-index: 105;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(7, 27, 52, 0.8);
+      backdrop-filter: blur(8px);
+    }
+
+    .image-preview-modal.is-open {
+      display: flex;
+    }
+
+    .image-preview-dialog {
+      position: relative;
+      width: min(100%, 1380px);
+      max-height: 88vh;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 30px 80px rgba(0, 24, 54, 0.38);
+    }
+
+    .image-preview-dialog img {
+      display: block;
+      width: 100%;
+      max-height: 88vh;
+      object-fit: contain;
+      background: #ffffff;
+    }
+
+    .image-preview-close {
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      right: 10px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    body[dir="rtl"] .image-preview-close {
+      right: auto;
+      left: 10px;
+    }
+
+    body[dir="rtl"] .module-card {
+      flex-direction: row-reverse;
+      text-align: right;
     }
 
     .contact-footer {
@@ -1285,13 +1445,627 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
+      .module-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
       .contact-footer {
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
+    /* Landing page carousel polish */
+    .demo-background-video {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.34;
+    }
+
+    .demo-thumbnail::before,
+    .demo-thumbnail::after {
+      z-index: 0;
+    }
+
+    .feature-carousel,
+    .screenshot-carousel {
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .feature-carousel::-webkit-scrollbar,
+    .screenshot-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .feature-carousel {
+      margin-inline: -16px;
+      padding-inline: 16px;
+    }
+
+    .feature-carousel .features-grid {
+      display: flex;
+      width: max-content;
+      gap: 12px;
+    }
+
+    .feature-carousel .feature-card {
+      flex: 0 0 208px;
+      min-height: 88px;
+      padding: 16px;
+    }
+
+    .screenshot-carousel {
+      gap: 16px;
+      max-width: none;
+      margin: 0;
+      padding-inline: 2px;
+      scroll-snap-type: none;
+      scroll-behavior: auto;
+    }
+
+    .screenshot-carousel .preview-card {
+      flex: 0 0 min(84vw, 720px);
+      scroll-snap-align: none;
+    }
+
+    @media (min-width: 700px) {
+      .feature-carousel {
+        margin-inline: 0;
+        padding-inline: 0;
+      }
+
+      .feature-carousel .feature-card {
+        flex-basis: 228px;
+      }
+
+      .screenshot-carousel .preview-card {
+        flex-basis: min(68vw, 720px);
+      }
+    }
+
+    /* Final conversion and motion polish */
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 18px;
+    }
+
+    .hero-trust > span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid rgba(8, 120, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .hero-trust b {
+      color: var(--primary);
+      font-size: 0.98rem;
+      line-height: 1;
+    }
+
+    .feature-carousel,
+    .screenshot-carousel {
+      direction: ltr;
+    }
+
+    body[dir="rtl"] .feature-carousel .feature-card,
+    body[dir="rtl"] .screenshot-carousel .preview-card {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .diagram {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .journey-wave {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      right: 7%;
+      left: 7%;
+      width: 86%;
+      height: 76px;
+      transform: translateY(-50%);
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .journey-wave-mobile {
+      display: none;
+    }
+
+    .journey-path {
+      fill: none;
+      stroke: url(#journeyWaveGradient);
+      stroke-linecap: round;
+      stroke-width: 3;
+    }
+
+    .journey-wave-mobile .journey-path {
+      stroke: url(#journeyWaveGradientMobile);
+    }
+
+    .journey-wave-dot {
+      fill: #36bcff;
+      filter: drop-shadow(0 0 7px rgba(8, 120, 255, 0.9));
+    }
+
+    .diagram-step {
+      position: relative;
+      z-index: 1;
+      animation: journey-step 7.2s ease-in-out infinite;
+      animation-delay: calc(var(--journey-index) * 1.2s);
+    }
+
+    @media (min-width: 700px) {
+      /* In RTL, a normal flex row already begins at the right edge. */
+      body[dir="rtl"] .diagram {
+        flex-direction: row;
+      }
+    }
+
+    @keyframes journey-step {
+      0%, 12%, 100% { border-color: var(--line); box-shadow: 0 10px 26px rgba(8, 66, 130, 0.07); color: var(--text); }
+      5%, 9% { border-color: rgba(8, 120, 255, 0.6); box-shadow: 0 14px 30px rgba(8, 120, 255, 0.2); color: var(--primary-deep); }
+    }
+
+    @media (max-width: 699px) {
+      .journey-wave {
+        display: none;
+      }
+
+      .journey-wave-mobile {
+        display: block;
+        top: 28px;
+        bottom: 28px;
+        left: 50%;
+        width: 42px;
+        height: auto;
+        right: auto;
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .diagram-step {
+        animation: none;
+      }
+
+      .journey-wave-dot {
+        display: none;
+      }
+    }
+
+    .page-loader {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      gap: 16px;
+      background: rgba(247, 251, 255, 0.98);
+      opacity: 1;
+      transition: opacity 240ms ease, visibility 240ms ease;
+    }
+
+    body.is-loading {
+      overflow: hidden;
+    }
+
+    .page-loader img {
+      width: min(156px, 42vw);
+      height: auto;
+    }
+
+    .loader-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .loader-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: loader-dot 720ms ease-in-out infinite;
+    }
+
+    .loader-dots span:nth-child(2) { animation-delay: 120ms; }
+    .loader-dots span:nth-child(3) { animation-delay: 240ms; }
+
+    .page-loader.is-hidden {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes loader-dot {
+      0%, 100% { transform: translateY(0); opacity: 0.42; }
+      50% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .loader-dots span {
+        animation: none;
+      }
+    }
+
+    .hero-grid {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-grid::before,
+    .hero-grid::after {
+      position: absolute;
+      z-index: -1;
+      width: 180px;
+      height: 180px;
+      content: '';
+      border-radius: 50%;
+      filter: blur(34px);
+      opacity: 0.22;
+      pointer-events: none;
+      animation: hero-glow-drift 10s ease-in-out infinite alternate;
+    }
+
+    .hero-grid::before {
+      top: 12%;
+      right: 5%;
+      background: rgba(28, 199, 255, 0.72);
+    }
+
+    .hero-grid::after {
+      top: 44%;
+      right: 18%;
+      width: 136px;
+      height: 136px;
+      background: rgba(8, 120, 255, 0.6);
+      animation-delay: -4s;
+    }
+
+    .hero-card {
+      isolation: isolate;
+    }
+
+    .hero-card.is-visible {
+      animation: hero-card-float 7.2s ease-in-out infinite;
+    }
+
+    .contact-role {
+      color: var(--primary-deep);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .hero-card::before {
+      position: absolute;
+      z-index: 2;
+      inset: -1px;
+      padding: 1px;
+      border-radius: inherit;
+      content: '';
+      pointer-events: none;
+      opacity: 0.32;
+      background: conic-gradient(from 0deg, transparent 0deg 292deg, rgba(28, 199, 255, 0.5) 322deg, rgba(8, 120, 255, 0.2) 342deg, transparent 360deg);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: hero-border-sweep 11s linear infinite;
+    }
+
+    .hero-card::after {
+      position: absolute;
+      z-index: -1;
+      top: 12%;
+      right: -20px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      content: '';
+      background: rgba(28, 199, 255, 0.26);
+      filter: blur(28px);
+      opacity: 0.45;
+      pointer-events: none;
+      animation: hero-card-glow 12s ease-in-out infinite alternate;
+    }
+
+    .hero-card .btn-primary[data-contact="WhatsApp"] {
+      animation: whatsapp-attention 9s ease-in-out infinite;
+    }
+
+    .hero-status-ticker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      margin: -6px 0 18px;
+      color: var(--primary-deep);
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .hero-status-ticker > span:first-child {
+      display: grid;
+      width: 19px;
+      height: 19px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.76rem;
+    }
+
+    #platformStatus {
+      display: inline-block;
+      min-width: 190px;
+      transition: opacity 180ms ease, translate 180ms ease;
+    }
+
+    #platformStatus.is-changing {
+      opacity: 0;
+      translate: 0 3px;
+    }
+
+    @keyframes hero-card-float {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -5px; }
+    }
+
+    @keyframes hero-border-sweep {
+      from { rotate: 0deg; }
+      to { rotate: 360deg; }
+    }
+
+    @keyframes hero-card-glow {
+      from { translate: -5px 5px; scale: 0.94; }
+      to { translate: 8px -6px; scale: 1.06; }
+    }
+
+    @keyframes whatsapp-attention {
+      0%, 87%, 100% { scale: 1; }
+      92% { scale: 1.03; }
+      96% { scale: 1; }
+    }
+
+    @keyframes hero-glow-drift {
+      from { translate: -7px 5px; scale: 0.96; }
+      to { translate: 9px -8px; scale: 1.06; }
+    }
+
+    @media (max-width: 699px) {
+      #platformStatus {
+        min-width: 0;
+      }
+
+      .hero-grid::before {
+        top: 46%;
+        right: -38px;
+        width: 130px;
+        height: 130px;
+      }
+
+      .hero-grid::after {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-card.is-visible,
+      .hero-grid::before,
+      .hero-grid::after,
+      .hero-card::before,
+      .hero-card::after,
+      .hero-card .btn-primary[data-contact="WhatsApp"] {
+        animation: none;
+      }
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: 0;
+      width: 72%;
+      height: 62%;
+      content: '';
+      pointer-events: none;
+      opacity: 0.3;
+      filter: blur(20px);
+      background:
+        radial-gradient(ellipse at 18% 58%, rgba(28, 199, 255, 0.32), transparent 44%),
+        radial-gradient(ellipse at 55% 44%, rgba(8, 120, 255, 0.2), transparent 48%),
+        repeating-radial-gradient(ellipse at 18% 78%, rgba(115, 215, 255, 0.12) 0 1px, transparent 2px 28px);
+      animation: hero-ocean-light 18s ease-in-out infinite alternate;
+    }
+
+    .hero::before {
+      top: 4%;
+      left: -22%;
+    }
+
+    .hero::after {
+      right: -26%;
+      bottom: 2%;
+      opacity: 0.2;
+      animation-delay: -8s;
+    }
+
+    .hero-grid {
+      z-index: 1;
+    }
+
+    .live-operations {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 820px;
+      margin-top: 16px;
+      padding: 10px 12px;
+      border: 1px solid rgba(8, 120, 255, 0.12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.66);
+      box-shadow: 0 12px 30px rgba(8, 66, 130, 0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .operations-live {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      gap: 6px;
+      color: var(--primary-deep);
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .operations-live i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #20b867;
+      box-shadow: 0 0 0 4px rgba(32, 184, 103, 0.12);
+      animation: operations-live-pulse 2.4s ease-in-out infinite;
+    }
+
+    .operations-track {
+      display: flex;
+      flex: 1 1 auto;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .operation-item {
+      display: flex;
+      align-items: center;
+      flex: 1 1 0;
+      gap: 7px;
+      min-width: 0;
+      color: var(--primary);
+    }
+
+    .operation-item svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      stroke-width: 2;
+    }
+
+    .operation-item span {
+      min-width: 0;
+    }
+
+    .operation-item strong,
+    .operation-item small {
+      display: block;
+    }
+
+    .operation-item strong {
+      color: var(--text);
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .operation-item small {
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 0.67rem;
+      line-height: 1.25;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @keyframes hero-ocean-light {
+      from { translate: -2% 2%; rotate: -2deg; scale: 0.98; }
+      to { translate: 5% -4%; rotate: 2deg; scale: 1.04; }
+    }
+
+    @keyframes operations-live-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(32, 184, 103, 0.12); }
+      50% { box-shadow: 0 0 0 7px rgba(32, 184, 103, 0.04); }
+    }
+
+    @media (max-width: 699px) {
+      .hero-content,
+      .hero-actions,
+      .live-operations {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .hero-actions .btn {
+        min-width: 0;
+      }
+
+      .live-operations {
+        display: block;
+        padding: 10px;
+      }
+
+      .operations-live {
+        margin: 0 2px 8px;
+      }
+
+      .operations-track {
+        overflow-x: auto;
+        padding: 1px 2px 4px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .operations-track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .operation-item {
+        flex: 0 0 138px;
+      }
+
+      .hero::before {
+        width: 100%;
+        left: -42%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before,
+      .hero::after,
+      .operations-live i {
+        animation: none;
+      }
+    }
   </style>
 </head>
-<body>
+<body class="is-loading">
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <img src="assets/yallasahel-logo.svg" alt="">
+    <div class="loader-dots"><span></span><span></span><span></span></div>
+  </div>
   <div class="page-shell">
     <header class="nav">
       <div class="nav-inner">
@@ -1365,12 +2139,43 @@
               <span data-i18n="launchBadge">Free Setup During Launch Phase</span>
             </p>
             <h1 data-i18n="heroHeadline">Manage, Grow &amp; Scale Your Beach From One Dashboard</h1>
+            <div class="hero-trust" aria-label="Launch benefits">
+              <span><b aria-hidden="true">✓</b><span data-i18n="trustSetup">Free Setup During Launch Phase</span></span>
+              <span><b aria-hidden="true">✓</b><span data-i18n="trustTraining">Team Training Included</span></span>
+              <span><b aria-hidden="true">✓</b><span data-i18n="trustSupport">Launch Support Included</span></span>
+            </div>
+            <div class="hero-status-ticker" aria-live="polite">
+              <span aria-hidden="true">✓</span>
+              <span id="platformStatus">QR Check-In Active</span>
+            </div>
             <p class="hero-subtitle" data-i18n="heroSubtitle">Manage reservations, QR check-in, memberships, events, digital menus, team management, revenue tracking, real-time reports and cross-marketing opportunities through one smart platform.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="#contact" data-i18n="heroCta">Start the Conversation</a>
               <button class="btn js-demo-trigger" type="button" data-i18n="watchDemo">Watch System Demo</button>
               <!-- Replace Platform URL -->
-              <a class="btn" href="https://your-platform-url.com/" target="_blank" rel="noopener" data-i18n="openPlatform">Open Platform</a>
+              <a class="btn" href="https://yallasahel.com/app" target="_blank" rel="noopener" data-i18n="openPlatform">Open Platform</a>
+              <a class="btn" href="/dashboard-preview" data-i18n="exploreDashboard">Explore Dashboard</a>
+            </div>
+            <div class="live-operations" aria-label="Live Operations">
+              <span class="operations-live"><i aria-hidden="true"></i><span data-i18n="liveOperations">Live Operations</span></span>
+              <div class="operations-track">
+                <div class="operation-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M7 9h10M7 13h4M15 13h2"/></svg>
+                  <span><strong data-live-counter="142">0</strong><small data-i18n="ticketsSold">Tickets Sold Today</small></span>
+                </div>
+                <div class="operation-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span><strong data-live-counter="87">0</strong><small data-i18n="qrCheckins">QR Check-ins</small></span>
+                </div>
+                <div class="operation-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                  <span><strong data-live-counter="64" data-count-suffix="%">0%</strong><small data-i18n="liveCapacity">Live Capacity</small></span>
+                </div>
+                <div class="operation-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h.01M11 10h6M7 14h4"/></svg>
+                  <span><strong data-live-counter="218" data-count-prefix="EGP " data-count-suffix="K">EGP 0K</strong><small data-i18n="revenueTracked">Revenue Tracked</small></span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1379,35 +2184,36 @@
               <div class="avatar" aria-hidden="true">AF</div>
               <div>
                 <p class="contact-name">Amir Fares</p>
-                <p class="contact-title" data-i18n="contactTitle">Head of Business Development & Partnerships</p>
+                <p class="contact-title" data-i18n="contactTitle">Head of Business Development</p>
+                <p class="contact-title contact-role" data-i18n="contactRole">Strategic Partnerships Director</p>
                 <p class="contact-brand">Yalla Sahel</p>
               </div>
             </div>
             <div class="contact-actions">
               <!-- Replace WhatsApp Link -->
-              <a class="btn btn-primary" href="https://wa.me/YOUR_NUMBER" data-contact="WhatsApp">
+              <a class="btn btn-primary" href="https://wa.me/201013745451" data-contact="WhatsApp">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.7 7.1L4 20l1.2-4.1A8 8 0 1 1 20 11.7Z"/><path d="M9.2 8.8c.2-.4.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c.7 1.2 1.6 2.1 2.8 2.7l.5-.5c.2-.2.5-.3.8-.1l1.5.7c.3.1.4.3.4.6v.5c0 .3-.2.6-.5.7-.6.3-1.5.3-2.5-.1-2.5-.9-4.7-3.1-5.6-5.6-.4-1-.4-1.9.1-2.6Z"/></svg>
                 <span data-i18n="whatsapp">WhatsApp</span>
               </a>
               <!-- Replace Phone Number -->
-              <a class="btn" href="tel:+YOUR_PHONE_NUMBER" data-contact="Call">
+              <a class="btn" href="tel:+201013745451" data-contact="Call">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M22 16.9v2.7a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 2.4 4.2 2 2 0 0 1 4.4 2H7a2 2 0 0 1 2 1.7l.4 2.5a2 2 0 0 1-.6 1.8L7.8 9a16 16 0 0 0 7.2 7.2l1.1-1.1a2 2 0 0 1 1.8-.6l2.5.5a2 2 0 0 1 1.6 1.9Z"/></svg>
                 <span data-i18n="callNow">Call Now</span>
               </a>
               <!-- Replace Email -->
-              <a class="btn" href="mailto:YOUR_EMAIL@example.com" data-contact="Email">
+              <a class="btn" href="mailto:amir@yallasahel.com" data-contact="Email">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="m22 7-10 6L2 7"/></svg>
                 <span data-i18n="email">Email</span>
               </a>
             </div>
             <div class="hero-metrics" aria-label="Platform capabilities">
               <div class="metric">
-                <strong>10+</strong>
-                <span data-i18n="metricOne">Core operating tools</span>
+                <strong data-i18n="metricCountOne" data-counter-target="15" data-counter-suffix="+">15+</strong>
+                <span data-i18n="metricOne">Beach Management Modules</span>
               </div>
               <div class="metric">
-                <strong>1</strong>
-                <span data-i18n="metricTwo">Connected growth platform</span>
+                <strong class="metric-modules" data-i18n="metricCountTwo">POS • Tickets • Memberships • QR • Reports</strong>
+                <span data-i18n="metricTwo">All key operations connected</span>
               </div>
             </div>
           </aside>
@@ -1422,6 +2228,10 @@
         </div>
         <article class="demo-card" data-animate>
           <div class="demo-thumbnail">
+            <!-- Replace Demo Video Path -->
+            <video class="demo-background-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+              <source src="videos/yalla-sahel-demo.mp4" type="video/mp4">
+            </video>
             <span class="demo-badge" data-i18n="demoBadge">60-Second System Demo</span>
             <button class="play-button js-demo-trigger" type="button" data-i18n-aria="playDemo" aria-label="Play system demo">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>
@@ -1430,6 +2240,7 @@
           <div class="demo-caption">
             <strong data-i18n="demoCaption">Yalla Sahel System Walkthrough</strong>
             <span data-i18n="demoHint">A quick look at the live operating workflow.</span>
+            <a class="btn" href="/dashboard-preview" data-i18n="exploreDashboard">Explore Dashboard</a>
           </div>
         </article>
       </section>
@@ -1439,28 +2250,19 @@
           <p class="section-kicker" data-i18n="dashboardKicker">Platform Preview</p>
           <h2 id="dashboard-title" data-i18n="dashboardTitle">Everything in one clear dashboard.</h2>
         </div>
-        <div class="dashboard-grid">
-          <article class="preview-card" data-animate>
-            <!-- Replace Dashboard Overview Image -->
-            <div class="preview-visual" role="img" aria-label="Dashboard overview placeholder"></div>
-            <h3 data-i18n="previewDashboard">Dashboard Overview</h3>
-          </article>
-          <article class="preview-card" data-animate>
-            <!-- Replace Reservations Image -->
-            <div class="preview-visual" role="img" aria-label="Reservations management placeholder"></div>
-            <h3 data-i18n="previewReservations">Reservations Management</h3>
-          </article>
-          <article class="preview-card" data-animate>
-            <!-- Replace Memberships Image -->
-            <div class="preview-visual" role="img" aria-label="Memberships management placeholder"></div>
-            <h3 data-i18n="previewMemberships">Memberships Management</h3>
-          </article>
-          <article class="preview-card" data-animate>
-            <!-- Replace QR Check-In Image -->
-            <div class="preview-visual" role="img" aria-label="QR check-in placeholder"></div>
-            <h3 data-i18n="previewQr">QR Check-In System</h3>
-          </article>
+        <div class="screenshot-carousel" id="screenshotCarousel" aria-label="Platform screenshots">
+          <!-- Homepage carousel sources are centralized in homepageCarouselImages below. -->
         </div>
+        <p class="carousel-note" data-i18n="carouselHint">Swipe to explore the platform.</p>
+      </section>
+
+      <section class="section" aria-labelledby="modules-title" hidden>
+        <div class="section-head">
+          <p class="section-kicker" data-i18n="modulesKicker">Platform Modules</p>
+          <h2 id="modules-title" data-i18n="modulesTitle">Complete Beach Management Platform</h2>
+          <p class="section-copy" data-i18n="modulesCopy">One connected system for sales, guest access, operations, teams and insights.</p>
+        </div>
+        <div class="module-grid" id="moduleGrid"></div>
       </section>
 
       <section class="section" aria-labelledby="features-title">
@@ -1469,7 +2271,9 @@
           <h2 id="features-title" data-i18n="featuresTitle">Everything your beach needs to operate smarter.</h2>
           <p class="section-copy" data-i18n="featuresCopy">Bring reservations, access, teams, menus, revenue and reporting into one clean operational layer.</p>
         </div>
-        <div class="features-grid" id="featuresGrid"></div>
+        <div class="feature-carousel" id="featureCarousel" aria-label="Platform features">
+          <div class="features-grid" id="featuresGrid"></div>
+        </div>
       </section>
 
       <section class="section" aria-labelledby="marketing-title">
@@ -1504,7 +2308,7 @@
       <section class="final-cta" aria-labelledby="cta-title" data-animate>
         <h2 id="cta-title" data-i18n="ctaTitle">Ready To See Yalla Sahel In Action?</h2>
         <!-- Replace WhatsApp Link -->
-        <a class="btn" href="https://wa.me/YOUR_NUMBER" data-contact="WhatsApp">
+        <a class="btn" href="https://wa.me/201013745451" data-contact="WhatsApp">
           <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.7 7.1L4 20l1.2-4.1A8 8 0 1 1 20 11.7Z"/><path d="M9.2 8.8c.2-.4.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c.7 1.2 1.6 2.1 2.8 2.7l.5-.5c.2-.2.5-.3.8-.1l1.5.7c.3.1.4.3.4.6v.5c0 .3-.2.6-.5.7-.6.3-1.5.3-2.5-.1-2.5-.9-4.7-3.1-5.6-5.6-.4-1-.4-1.9.1-2.6Z"/></svg>
           <span data-i18n="ctaButton">Chat on WhatsApp</span>
         </a>
@@ -1513,17 +2317,17 @@
 
     <nav class="mobile-contact-bar" aria-label="Quick contact">
       <!-- Replace WhatsApp Link -->
-      <a class="btn btn-primary" href="https://wa.me/YOUR_NUMBER" data-contact="WhatsApp">
+      <a class="btn btn-primary" href="https://wa.me/201013745451" data-contact="WhatsApp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.7 7.1L4 20l1.2-4.1A8 8 0 1 1 20 11.7Z"/><path d="M9.2 8.8c.2-.4.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c.7 1.2 1.6 2.1 2.8 2.7l.5-.5c.2-.2.5-.3.8-.1l1.5.7c.3.1.4.3.4.6v.5c0 .3-.2.6-.5.7-.6.3-1.5.3-2.5-.1-2.5-.9-4.7-3.1-5.6-5.6-.4-1-.4-1.9.1-2.6Z"/></svg>
         <span data-i18n="whatsapp">WhatsApp</span>
       </a>
       <!-- Replace Phone Number -->
-      <a class="btn" href="tel:+YOUR_PHONE_NUMBER" data-contact="Call">
+      <a class="btn" href="tel:+201013745451" data-contact="Call">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M22 16.9v2.7a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 2.4 4.2 2 2 0 0 1 4.4 2H7a2 2 0 0 1 2 1.7l.4 2.5a2 2 0 0 1-.6 1.8L7.8 9a16 16 0 0 0 7.2 7.2l1.1-1.1a2 2 0 0 1 1.8-.6l2.5.5a2 2 0 0 1 1.6 1.9Z"/></svg>
         <span data-i18n="callNow">Call Now</span>
       </a>
       <!-- Replace Email -->
-      <a class="btn" href="mailto:YOUR_EMAIL@example.com" data-contact="Email">
+      <a class="btn" href="mailto:amir@yallasahel.com" data-contact="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="m22 7-10 6L2 7"/></svg>
         <span data-i18n="email">Email</span>
       </a>
@@ -1533,22 +2337,22 @@
       <span data-i18n="footer">Yalla Sahel. One smart platform for beach operations and growth.</span>
       <nav class="contact-footer" aria-label="Contact Yalla Sahel">
         <!-- Replace WhatsApp Link -->
-        <a href="https://wa.me/YOUR_NUMBER">
+        <a href="https://wa.me/201013745451">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.7 7.1L4 20l1.2-4.1A8 8 0 1 1 20 11.7Z"/><path d="M9.2 8.8c.2-.4.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c.7 1.2 1.6 2.1 2.8 2.7l.5-.5c.2-.2.5-.3.8-.1l1.5.7c.3.1.4.3.4.6v.5c0 .3-.2.6-.5.7-.6.3-1.5.3-2.5-.1-2.5-.9-4.7-3.1-5.6-5.6-.4-1-.4-1.9.1-2.6Z"/></svg>
           <span data-i18n="whatsapp">WhatsApp</span>
         </a>
         <!-- Replace Phone Number -->
-        <a href="tel:+YOUR_PHONE_NUMBER">
+        <a href="tel:+201013745451">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M22 16.9v2.7a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 2.4 4.2 2 2 0 0 1 4.4 2H7a2 2 0 0 1 2 1.7l.4 2.5a2 2 0 0 1-.6 1.8L7.8 9a16 16 0 0 0 7.2 7.2l1.1-1.1a2 2 0 0 1 1.8-.6l2.5.5a2 2 0 0 1 1.6 1.9Z"/></svg>
           <span data-i18n="callNow">Call Now</span>
         </a>
         <!-- Replace Email -->
-        <a href="mailto:YOUR_EMAIL@example.com">
+        <a href="mailto:amir@yallasahel.com">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="m22 7-10 6L2 7"/></svg>
           <span data-i18n="email">Email</span>
         </a>
         <!-- Replace Platform URL -->
-        <a href="https://your-platform-url.com/" target="_blank" rel="noopener">
+        <a href="https://yallasahel.com/app" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
           <span data-i18n="openPlatform">Open Platform</span>
         </a>
@@ -1563,7 +2367,15 @@
       </button>
       <h2 id="videoModalTitle" class="sr-only" data-i18n="videoTitle">Yalla Sahel System Demo</h2>
       <!-- Replace Demo Video Path -->
-      <video id="demoVideo" controls preload="metadata" src="videos/yalla-sahel-demo.mp4"></video>
+      <video id="demoVideo" controls loop playsinline preload="metadata" src="videos/yalla-sahel-demo.mp4"></video>
+    </div>
+  </div>
+
+  <div class="image-preview-modal" id="imagePreviewModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="imagePreviewTitle">
+    <div class="image-preview-dialog">
+      <button class="image-preview-close" type="button" data-i18n-aria="closeImagePreview" aria-label="Close image preview">&times;</button>
+      <h2 id="imagePreviewTitle" class="sr-only" data-i18n="imagePreviewTitle">Dashboard screenshot preview</h2>
+      <img id="imagePreviewImage" src="" alt="">
     </div>
   </div>
 
@@ -1580,11 +2392,28 @@
       reports: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-3"/></svg>',
       marketing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 11v2a2 2 0 0 0 2 2h2l4 4v-5l8-3V5L7 9H5a2 2 0 0 0-2 2Z"/><path d="M21 8v4"/></svg>',
       branches: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 21V7l8-4 8 4v14"/><path d="M8 21v-6h8v6"/><path d="M8 9h.01M12 9h.01M16 9h.01"/></svg>',
-      mobile: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/><path d="M9 5h6"/></svg>'
+      mobile: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/><path d="M9 5h6"/></svg>',
+      weather: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+      insights: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/><path d="M17 7h3v3"/></svg>',
+      settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.12 2.12-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20.3h-3v-.08A1.7 1.7 0 0 0 10.66 18.66a1.7 1.7 0 0 0-1.88.34l-.06.06L6.6 16.94l.06-.06A1.7 1.7 0 0 0 7 15a1.7 1.7 0 0 0-1.56-1.04H5.3v-3h.14A1.7 1.7 0 0 0 7 9.92a1.7 1.7 0 0 0-.34-1.88L6.6 7.98 8.72 5.86l.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 11.7 4.7v-.08h3v.08a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.12 2.12-.06.06A1.7 1.7 0 0 0 19.4 9.92a1.7 1.7 0 0 0 1.56 1.04h.08v3h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg>'
     };
 
     const arrowIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
     const checkIcon = '<span class="check-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6"/></svg></span>';
+
+    // Homepage dashboard screenshots, selected from the supplied product capture set.
+    const homepageCarouselImages = {
+      posCheckout: 'assets/homepage-carousel/screenshots/IMG_5248.PNG',
+      ticketManager: 'assets/homepage-carousel/screenshots/IMG_5245.PNG',
+      availability: 'assets/homepage-carousel/screenshots/IMG_5246.PNG',
+      memberships: 'assets/homepage-carousel/screenshots/IMG_5264.PNG',
+      foodDrinks: 'assets/homepage-carousel/screenshots/IMG_5269.PNG',
+      liveCapacity: 'assets/homepage-carousel/screenshots/IMG_5262.PNG',
+      qrScanner: 'assets/homepage-carousel/screenshots/IMG_5259.PNG',
+      entryGranted: 'assets/homepage-carousel/screenshots/IMG_5252.PNG',
+      salesReports: 'assets/homepage-carousel/screenshots/IMG_5249.PNG',
+      insights: 'assets/homepage-carousel/screenshots/IMG_5265.PNG'
+    };
 
     const content = {
       en: {
@@ -1593,8 +2422,18 @@
         heroSubtitle: 'Manage reservations, QR check-in, memberships, events, digital menus, team management, revenue tracking, real-time reports and cross-marketing opportunities through one smart platform.',
         heroCta: 'Start the Conversation',
         launchBadge: 'Free Setup During Launch Phase',
+        trustSetup: 'Free Setup During Launch Phase',
+        trustTraining: 'Team Training Included',
+        trustSupport: 'Launch Support Included',
+        platformStatuses: ['QR Check-In Active', 'Memberships Enabled', 'POS Running', 'Capacity Tracking Live', 'Reports Synced'],
+        liveOperations: 'Live Operations',
+        ticketsSold: 'Tickets Sold Today',
+        qrCheckins: 'QR Check-ins',
+        liveCapacity: 'Live Capacity',
+        revenueTracked: 'Revenue Tracked',
         watchDemo: 'Watch System Demo',
         openPlatform: 'Open Platform',
+        exploreDashboard: 'Explore Dashboard',
         demoKicker: 'System Demo',
         demoTitle: 'See Yalla Sahel In Action',
         demoDescription: 'Watch a quick demo of how beach operators manage reservations, QR check-in, memberships, events and reports from one dashboard.',
@@ -1606,16 +2445,34 @@
         videoTitle: 'Yalla Sahel System Demo',
         dashboardKicker: 'Platform Preview',
         dashboardTitle: 'Everything in one clear dashboard.',
-        previewDashboard: 'Dashboard Overview',
-        previewReservations: 'Reservations Management',
-        previewMemberships: 'Memberships Management',
+        carouselHint: 'Swipe to explore the platform.',
+        previewDashboard: 'POS & Checkout',
+        previewReservations: 'Ticket Management',
+        previewMemberships: 'Availability Calendar',
         previewQr: 'QR Check-In System',
-        contactTitle: 'Head of Business Development & Partnerships',
+        previewMenu: 'Menu Management',
+        previewSales: 'Sales Reports',
+        previewBuyouts: 'Buyouts',
+        previewCapacity: 'Capacity Management',
+        previewCustomers: 'Customer Management',
+        previewInsights: 'Insights Dashboard',
+        previewWeather: 'Weather Dashboard',
+        previewStaff: 'Staff Management',
+        previewSettings: 'Settings',
+        modulesKicker: 'Platform Modules',
+        modulesTitle: 'Complete Beach Management Platform',
+        modulesCopy: 'One connected system for sales, guest access, operations, teams and insights.',
+        imagePreviewTitle: 'Dashboard screenshot preview',
+        closeImagePreview: 'Close image preview',
+        contactTitle: 'Head of Business Development',
+        contactRole: 'Strategic Partnerships Director',
         whatsapp: 'WhatsApp',
         callNow: 'Call Now',
         email: 'Email',
-        metricOne: 'Core operating tools',
-        metricTwo: 'Connected growth platform',
+        metricCountOne: '15+',
+        metricOne: 'Beach Management Modules',
+        metricCountTwo: 'POS • Tickets • Memberships • QR • Reports',
+        metricTwo: 'All key operations connected',
         featuresKicker: 'Platform Features',
         featuresTitle: 'Everything your beach needs to operate smarter.',
         featuresCopy: 'Bring reservations, access, teams, menus, revenue and reporting into one clean operational layer.',
@@ -1631,20 +2488,28 @@
         footer: 'Yalla Sahel. One smart platform for beach operations and growth.',
         placeholder: 'Contact link placeholder. Replace this button href with your real Yalla Sahel contact detail.',
         features: [
+          ['POS & Checkout', 'revenue'],
+          ['Ticketing', 'calendar'],
+          ['Memberships', 'membership'],
           ['QR Check-In', 'qr'],
           ['Capacity Management', 'capacity'],
-          ['Reservations', 'calendar'],
-          ['Memberships', 'membership'],
-          ['Events Management', 'events'],
           ['Digital Menu', 'menu'],
-          ['Team Management', 'team'],
-          ['Revenue Visibility', 'revenue'],
-          ['Real-Time Reports', 'reports'],
-          ['Cross Marketing', 'marketing'],
-          ['Manage Multiple Branches From One Dashboard', 'branches'],
-          ['Mobile Counter Access', 'mobile']
+          ['Reports', 'reports'],
+          ['Staff Management', 'team']
         ],
-        diagram: ['Your Beach', 'Yalla Sahel Platform', 'More Visitors', 'More Visibility', 'More Bookings & Growth'],
+        carouselScreens: [
+          ['POS Checkout', 'posCheckout'],
+          ['Ticket Manager', 'ticketManager'],
+          ['Availability Calendar', 'availability'],
+          ['Memberships', 'memberships'],
+          ['Digital Menu', 'foodDrinks'],
+          ['Live Capacity', 'liveCapacity'],
+          ['QR Check-In', 'qrScanner'],
+          ['Entry Granted', 'entryGranted'],
+          ['Sales Reports', 'salesReports'],
+          ['Insights Dashboard', 'insights']
+        ],
+        diagram: ['Your Beach', 'Yalla Sahel Platform', 'More Visitors', 'More Visibility', 'More Bookings', 'Revenue Growth'],
         why: [
           'All-in-one platform built for beaches',
           'Increase revenue and operational efficiency',
@@ -1652,14 +2517,29 @@
           'Centralize reservations, memberships, events, digital menus and team management',
           'Dedicated support and continuous updates'
         ],
-        start: ['Intro meeting', 'Platform demo', 'Setup plan', 'Team training', 'Launch support']
+        start: ['Intro meeting', 'Platform demo', 'Setup plan', 'Team training', 'Launch support'],
+        modules: [
+          ['POS & Checkout', 'revenue'],
+          ['Ticketing', 'calendar'],
+          ['Memberships', 'membership'],
+          ['QR Check-In', 'qr'],
+          ['Capacity Management', 'capacity'],
+          ['Digital Menu', 'menu'],
+          ['Sales Reports', 'reports'],
+          ['Buyouts', 'calendar'],
+          ['Customer Management', 'team'],
+          ['Weather Monitoring', 'weather'],
+          ['Staff Management', 'team'],
+          ['Insights & Analytics', 'insights'],
+          ['Settings & Permissions', 'settings']
+        ]
       },
       ar: {
         eyebrow: 'منصة تشغيل ونمو للشواطئ',
         heroHeadline: 'منصة تشغيل ونمو للشواطئ والأنشطة والعضويات والفعاليات والمنيو الرقمي',
         heroSubtitle: 'منصة تساعد الشواطئ على إدارة الحجوزات، الدخول عبر QR، العضويات، الفعاليات، المنيو الرقمي، إدارة الفريق، التقارير، الإيرادات وفرص التسويق المتبادل من مكان واحد.',
         heroCta: 'ابدأ التواصل',
-        contactTitle: 'رئيس تطوير الأعمال والشراكات',
+        contactTitle: 'رئيس تطوير الأعمال',
         whatsapp: 'واتساب',
         callNow: 'اتصل الآن',
         email: 'البريد الإلكتروني',
@@ -1725,7 +2605,8 @@
       heroHeadline: 'منصة ذكية\nلإدارة وتشغيل\nالشواطئ',
       heroSubtitle: 'منصة تساعد الشواطئ على إدارة الحجوزات، الدخول عبر QR، العضويات، الفعاليات، المنيو الرقمي، إدارة الفريق، الإيرادات، التقارير وفرص التسويق المتبادل من مكان واحد.',
       heroCta: 'ابدأ التواصل',
-      contactTitle: 'رئيس تطوير الأعمال والشراكات',
+      contactTitle: 'رئيس تطوير الأعمال',
+      contactRole: 'مدير الشراكات الاستراتيجية',
       whatsapp: 'واتساب',
       callNow: 'اتصل الآن',
       email: 'البريد الإلكتروني',
@@ -1774,20 +2655,86 @@
       demoBadge: 'شرح النظام في 60 ثانية',
       ctaTitle: 'جاهز تشوف يلا ساحل على أرض الواقع؟',
       features: [
+        ['نقاط البيع والدفع', 'revenue'],
+        ['إدارة التذاكر', 'calendar'],
+        ['العضويات', 'membership'],
         ['الدخول عبر QR', 'qr'],
         ['إدارة الطاقة الاستيعابية', 'capacity'],
-        ['الحجوزات', 'calendar'],
-        ['العضويات', 'membership'],
-        ['إدارة الفعاليات', 'events'],
         ['المنيو الرقمي', 'menu'],
-        ['إدارة الفريق', 'team'],
-        ['وضوح الإيرادات', 'revenue'],
-        ['تقارير فورية', 'reports'],
-        ['التسويق المتبادل', 'marketing'],
-        ['إدارة عدة فروع من لوحة تحكم واحدة', 'branches'],
-        ['تشغيل الكاونتر من الموبايل أو التابلت', 'mobile']
+        ['التقارير', 'reports'],
+        ['إدارة الفريق', 'team']
       ],
       diagram: ['شاطئك', 'منصة يلا ساحل', 'زوار أكثر', 'ظهور أكثر', 'حجوزات ونمو أكثر']
+    });
+
+    Object.assign(content.ar, {
+      exploreDashboard: 'استعرض النظام',
+      carouselHint: 'اسحب لاستعراض المنصة.',
+      previewDashboard: 'نقاط البيع والدفع',
+      previewReservations: 'إدارة التذاكر',
+      previewMemberships: 'تقويم الإتاحة',
+      previewQr: 'الدخول عبر QR'
+    });
+
+    Object.assign(content.ar, {
+      previewMenu: 'إدارة المنيو',
+      previewSales: 'تقارير المبيعات',
+      previewBuyouts: 'الإغلاقات والحجوزات الخاصة',
+      previewCapacity: 'إدارة الطاقة الاستيعابية',
+      previewCustomers: 'إدارة العملاء',
+      previewInsights: 'لوحة المؤشرات',
+      previewWeather: 'لوحة الطقس',
+      previewStaff: 'إدارة الفريق',
+      previewSettings: 'الإعدادات',
+      modulesKicker: 'وحدات المنصة',
+      modulesTitle: 'منصة متكاملة لإدارة الشواطئ',
+      modulesCopy: 'نظام متصل واحد للمبيعات ودخول الزوار والتشغيل والفريق والمؤشرات.',
+      imagePreviewTitle: 'معاينة لقطة من النظام',
+      closeImagePreview: 'إغلاق معاينة الصورة',
+      metricCountOne: '15+',
+      metricOne: 'وحدة لإدارة الشاطئ',
+      metricCountTwo: 'نقاط البيع • التذاكر • العضويات • QR • التقارير',
+      metricTwo: 'كل العمليات الأساسية متصلة',
+      modules: [
+        ['نقاط البيع والدفع', 'revenue'],
+        ['إدارة التذاكر', 'calendar'],
+        ['العضويات', 'membership'],
+        ['الدخول عبر QR', 'qr'],
+        ['إدارة الطاقة الاستيعابية', 'capacity'],
+        ['المنيو الرقمي', 'menu'],
+        ['تقارير المبيعات', 'reports'],
+        ['الإغلاقات والحجوزات الخاصة', 'calendar'],
+        ['إدارة العملاء', 'team'],
+        ['متابعة الطقس', 'weather'],
+        ['إدارة الفريق', 'team'],
+        ['المؤشرات والتحليلات', 'insights'],
+        ['الإعدادات والصلاحيات', 'settings']
+      ]
+    });
+
+    Object.assign(content.ar, {
+      trustSetup: 'التفعيل مجاني خلال مرحلة الإطلاق',
+      trustTraining: 'يشمل تدريب الفريق',
+      trustSupport: 'يشمل دعم الإطلاق',
+      platformStatuses: ['الدخول عبر QR نشط', 'العضويات مفعّلة', 'نقاط البيع تعمل', 'متابعة السعة مباشرة', 'التقارير متزامنة'],
+      liveOperations: 'عمليات مباشرة',
+      ticketsSold: 'تذكرة مباعة اليوم',
+      qrCheckins: 'تسجيل دخول QR',
+      liveCapacity: 'السعة المباشرة',
+      revenueTracked: 'إيرادات تم تتبعها',
+      carouselScreens: [
+        ['نقاط البيع والدفع', 'posCheckout'],
+        ['إدارة التذاكر', 'ticketManager'],
+        ['تقويم الإتاحة', 'availability'],
+        ['العضويات', 'memberships'],
+        ['المنيو الرقمي', 'foodDrinks'],
+        ['الطاقة الاستيعابية المباشرة', 'liveCapacity'],
+        ['الدخول عبر QR', 'qrScanner'],
+        ['تم السماح بالدخول', 'entryGranted'],
+        ['تقارير المبيعات', 'salesReports'],
+        ['لوحة المؤشرات', 'insights']
+      ],
+      diagram: ['شاطئك', 'منصة يلا ساحل', 'زوار أكثر', 'ظهور أكبر', 'حجوزات أكثر', 'نمو الإيرادات']
     });
 
     const state = { lang: 'en' };
@@ -1824,12 +2771,50 @@
       `).join('');
     }
 
+    function renderHomepageScreens(lang) {
+      const carousel = document.querySelector('#screenshotCarousel');
+      carousel.innerHTML = content[lang].carouselScreens.map(([label, imageKey], index) => `
+        <article class="preview-card" data-animate style="--step-index: ${index}">
+          <button class="preview-media js-image-preview" type="button">
+            <img class="preview-image" src="${homepageCarouselImages[imageKey]}" alt="${label} dashboard preview">
+          </button>
+          <h3>${label}</h3>
+        </article>
+      `).join('');
+    }
+
+    function renderModules(lang) {
+      const grid = document.querySelector('#moduleGrid');
+      grid.innerHTML = content[lang].modules.map(([label, icon], index) => `
+        <article class="module-card" data-animate style="--step-index: ${index}">
+          <span class="icon-box" aria-hidden="true">${icons[icon]}</span>
+          <span>${label}</span>
+        </article>
+      `).join('');
+    }
+
     function renderDiagram(lang) {
       const diagram = document.querySelector('#diagram');
-      diagram.innerHTML = content[lang].diagram.map((label, index, array) => `
-        <div class="diagram-step" data-animate style="--step-index: ${index}">${label}</div>
-        ${index < array.length - 1 ? `<div class="diagram-arrow" data-animate style="--step-index: ${index}">${arrowIcon}</div>` : ''}
-      `).join('');
+      diagram.classList.toggle('is-rtl', lang === 'ar');
+      const desktopPath = lang === 'ar'
+        ? 'M1000 50 C915 6 830 6 745 50 S575 94 490 50 S320 6 235 50 S85 94 0 50'
+        : 'M0 50 C85 6 170 6 255 50 S425 94 510 50 S680 6 765 50 S915 94 1000 50';
+      const mobilePath = 'M50 0 C8 85 8 170 50 255 S92 425 50 510 S8 680 50 765 S92 915 50 1000';
+      diagram.innerHTML = `
+        <svg class="journey-wave" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="journeyWaveGradient" x1="0" x2="1"><stop stop-color="#0878ff" stop-opacity=".12"/><stop offset=".5" stop-color="#1bb0fb" stop-opacity=".8"/><stop offset="1" stop-color="#0878ff" stop-opacity=".12"/></linearGradient></defs>
+          <path class="journey-path" d="${desktopPath}"/>
+          <circle class="journey-wave-dot" r="7"><animateMotion dur="7.2s" repeatCount="indefinite" path="${desktopPath}"/></circle>
+        </svg>
+        <svg class="journey-wave journey-wave-mobile" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true">
+          <defs><linearGradient id="journeyWaveGradientMobile" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0878ff" stop-opacity=".12"/><stop offset=".5" stop-color="#1bb0fb" stop-opacity=".8"/><stop offset="1" stop-color="#0878ff" stop-opacity=".12"/></linearGradient></defs>
+          <path class="journey-path" stroke="url(#journeyWaveGradientMobile)" d="${mobilePath}"/>
+          <circle class="journey-wave-dot" r="7"><animateMotion dur="7.2s" repeatCount="indefinite" path="${mobilePath}"/></circle>
+        </svg>
+        ${content[lang].diagram.map((label, index) => `
+          <div class="diagram-step" data-animate style="--step-index: ${index}; --journey-index: ${index}">${label}</div>
+        `).join('')}
+      `;
     }
 
     function renderLists(lang) {
@@ -1840,6 +2825,131 @@
       document.querySelector('#startList').innerHTML = content[lang].start.map((item, index) => `
         <li><span class="step-number">${index + 1}</span><span>${item}</span></li>
       `).join('');
+    }
+
+    let statusTickerIndex = 0;
+    let statusTickerTimer;
+
+    function startStatusTicker(lang) {
+      const status = document.querySelector('#platformStatus');
+      const messages = content[lang].platformStatuses;
+      window.clearInterval(statusTickerTimer);
+      statusTickerIndex = 0;
+      status.textContent = messages[statusTickerIndex];
+
+      if (!motionAllowed) return;
+      statusTickerTimer = window.setInterval(() => {
+        status.classList.add('is-changing');
+        window.setTimeout(() => {
+          statusTickerIndex = (statusTickerIndex + 1) % messages.length;
+          status.textContent = messages[statusTickerIndex];
+          status.classList.remove('is-changing');
+        }, 180);
+      }, 2400);
+    }
+
+    function setupHeroCounters() {
+      const counters = Array.from(document.querySelectorAll('[data-counter-target], [data-live-counter]'));
+      if (!counters.length) return;
+
+      const counterTarget = counter => Number(counter.dataset.counterTarget || counter.dataset.liveCounter);
+      const counterPrefix = counter => counter.dataset.countPrefix || '';
+      const counterSuffix = counter => counter.dataset.countSuffix || counter.dataset.counterSuffix || '';
+
+      const finishCounter = counter => {
+        counter.textContent = `${counterPrefix(counter)}${counterTarget(counter)}${counterSuffix(counter)}`;
+      };
+
+      const animateCounter = counter => {
+        const target = counterTarget(counter);
+        const prefix = counterPrefix(counter);
+        const suffix = counterSuffix(counter);
+        const duration = 900;
+        const startTime = performance.now();
+        const update = () => {
+          const progress = Math.min(Math.max((performance.now() - startTime) / duration, 0), 1);
+          counter.textContent = `${prefix}${Math.round(target * (1 - Math.pow(1 - progress, 3)))}${suffix}`;
+          if (progress < 1) window.requestAnimationFrame(update);
+        };
+        window.requestAnimationFrame(update);
+      };
+
+      counters.forEach(counter => { counter.textContent = `${counterPrefix(counter)}0${counterSuffix(counter)}`; });
+      if (!motionAllowed || !('IntersectionObserver' in window)) {
+        counters.forEach(finishCounter);
+        return;
+      }
+
+      const heroCounterObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            counters.forEach(animateCounter);
+            heroCounterObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.35 });
+      heroCounterObserver.observe(document.querySelector('.hero'));
+    }
+
+    function setupInfiniteCarousel(container, itemSelector, pixelsPerSecond) {
+      if (!container) return;
+
+      if (container._carouselState) {
+        window.cancelAnimationFrame(container._carouselState.frameId);
+      }
+
+      const track = container.matches(itemSelector) ? container.parentElement : container.querySelector(itemSelector)?.parentElement;
+      const itemParent = track === container ? container : track;
+      itemParent.querySelectorAll('[data-carousel-clone]').forEach(item => item.remove());
+
+      const items = Array.from(itemParent.querySelectorAll(`:scope > ${itemSelector}`));
+      if (!motionAllowed || items.length < 2) return;
+
+      items.forEach(item => {
+        const clone = item.cloneNode(true);
+        clone.setAttribute('data-carousel-clone', '');
+        clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll('button, a').forEach(control => control.tabIndex = -1);
+        itemParent.appendChild(clone);
+      });
+
+      const firstClone = itemParent.querySelector('[data-carousel-clone]');
+      const firstItem = itemParent.querySelector(itemSelector);
+      const loopWidth = firstClone.offsetLeft - firstItem.offsetLeft;
+      const direction = document.documentElement.dir === 'rtl' ? -1 : 1;
+      const state = { frameId: 0, paused: false, previousTime: 0, loopWidth, direction };
+      container._carouselState = state;
+      container.scrollLeft = direction === 1 ? 0 : loopWidth;
+
+      const animate = time => {
+        if (!state.previousTime) state.previousTime = time;
+        const delta = Math.min(time - state.previousTime, 64);
+        state.previousTime = time;
+        if (!state.paused) {
+          container.scrollLeft += state.direction * pixelsPerSecond * delta / 1000;
+          if (state.direction === 1 && container.scrollLeft >= state.loopWidth) container.scrollLeft -= state.loopWidth;
+          if (state.direction === -1 && container.scrollLeft <= 0) container.scrollLeft += state.loopWidth;
+        }
+        state.frameId = window.requestAnimationFrame(animate);
+      };
+
+      if (!container.dataset.carouselEvents) {
+        const pause = () => { if (container._carouselState) container._carouselState.paused = true; };
+        const resume = () => {
+          if (container._carouselState) {
+            container._carouselState.paused = false;
+            container._carouselState.previousTime = 0;
+          }
+        };
+        container.addEventListener('mouseenter', pause);
+        container.addEventListener('mouseleave', resume);
+        container.addEventListener('touchstart', pause, { passive: true });
+        container.addEventListener('touchend', resume, { passive: true });
+        container.addEventListener('touchcancel', resume, { passive: true });
+        container.dataset.carouselEvents = 'true';
+      }
+
+      state.frameId = window.requestAnimationFrame(animate);
     }
 
     function setLanguage(lang) {
@@ -1865,8 +2975,13 @@
       });
 
       renderFeatures(lang);
+      renderHomepageScreens(lang);
+      renderModules(lang);
       renderDiagram(lang);
       renderLists(lang);
+      startStatusTicker(lang);
+      setupInfiniteCarousel(document.querySelector('#featureCarousel'), '.feature-card', 40);
+      setupInfiniteCarousel(document.querySelector('#screenshotCarousel'), '.preview-card', 46);
       observeAnimated();
     }
 
@@ -1883,6 +2998,7 @@
       videoModal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
       modalClose.focus();
+      demoVideo.play().catch(() => {});
     }
 
     function closeDemoModal() {
@@ -1904,6 +3020,39 @@
       if (event.key === 'Escape' && videoModal.classList.contains('is-open')) closeDemoModal();
     });
 
+    const imagePreviewModal = document.querySelector('#imagePreviewModal');
+    const imagePreviewImage = document.querySelector('#imagePreviewImage');
+    const imagePreviewClose = document.querySelector('.image-preview-close');
+
+    function openImagePreview(image) {
+      imagePreviewImage.src = image.currentSrc || image.src;
+      imagePreviewImage.alt = image.alt;
+      imagePreviewModal.classList.add('is-open');
+      imagePreviewModal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      imagePreviewClose.focus();
+    }
+
+    function closeImagePreview() {
+      imagePreviewModal.classList.remove('is-open');
+      imagePreviewModal.setAttribute('aria-hidden', 'true');
+      imagePreviewImage.removeAttribute('src');
+      document.body.classList.remove('modal-open');
+    }
+
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('.js-image-preview');
+      if (trigger) openImagePreview(trigger.querySelector('img'));
+    });
+
+    imagePreviewClose.addEventListener('click', closeImagePreview);
+    imagePreviewModal.addEventListener('click', event => {
+      if (event.target === imagePreviewModal) closeImagePreview();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && imagePreviewModal.classList.contains('is-open')) closeImagePreview();
+    });
+
     document.querySelectorAll('.js-placeholder').forEach(link => {
       link.addEventListener('click', event => {
         if (link.getAttribute('href') === '#') {
@@ -1914,6 +3063,23 @@
     });
 
     setLanguage('en');
+    setupHeroCounters();
+
+    const pageLoader = document.querySelector('#pageLoader');
+    const hidePageLoader = () => {
+      pageLoader.classList.add('is-hidden');
+      document.body.classList.remove('is-loading');
+    };
+
+    let showLoader = motionAllowed;
+    try {
+      showLoader = showLoader && !window.sessionStorage.getItem('yalla-sahel-loader-seen');
+      window.sessionStorage.setItem('yalla-sahel-loader-seen', 'true');
+    } catch {
+      // Storage can be unavailable in private browsing contexts.
+    }
+
+    window.setTimeout(hidePageLoader, showLoader ? 2000 : 0);
   </script>
 </body>
 </html>
