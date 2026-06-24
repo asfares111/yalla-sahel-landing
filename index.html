@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yalla Sahel | Beach Operations Platform</title>
   <meta name="description" content="Yalla Sahel is a beach operations and growth platform for reservations, QR check-in, memberships, events, digital menus and coastal growth.">
+  <link rel="canonical" href="https://yallasahel.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yalla Sahel">
+  <meta property="og:url" content="https://yallasahel.com/">
+  <meta property="og:title" content="Yalla Sahel | Beach Operations Platform">
+  <meta property="og:description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
+  <meta property="og:image" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
+  <meta property="og:image:secure_url" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Yalla Sahel Beach Operations Platform dashboard preview with Amir Fares contact details">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Yalla Sahel | Beach Operations Platform">
+  <meta name="twitter:description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
+  <meta name="twitter:image" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
+  <meta name="twitter:image:alt" content="Yalla Sahel Beach Operations Platform dashboard preview with Amir Fares contact details">
   <link rel="icon" type="image/svg+xml" href="assets/yallasahel-logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -693,7 +710,6 @@
 
     body {
       font-weight: 400;
-      animation: heroDrift 18s ease-in-out infinite alternate;
     }
 
     h2,
@@ -887,16 +903,6 @@
       transition-delay: calc(var(--step-index, 0) * 80ms);
     }
 
-    @keyframes heroDrift {
-      0% {
-        background-position: 0 0, 100% 0, 0 0;
-      }
-
-      100% {
-        background-position: 24px 18px, calc(100% - 28px) 12px, 0 0;
-      }
-    }
-
     @media (hover: hover) {
       .btn:hover {
         transform: translateY(-2px);
@@ -1011,7 +1017,7 @@
     .demo-thumbnail {
       position: relative;
       display: grid;
-      min-height: 220px;
+      aspect-ratio: 1920 / 1032;
       place-items: center;
       overflow: hidden;
       background:
@@ -1027,6 +1033,16 @@
       background: rgba(255, 255, 255, 0.18);
       box-shadow: 0 16px 40px rgba(0, 68, 148, 0.24);
       transform: rotate(-7deg);
+    }
+
+    .demo-poster {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
 
     .demo-thumbnail::before {
@@ -1050,7 +1066,7 @@
     }
 
     .play-button {
-      z-index: 1;
+      z-index: 2;
       width: 76px;
       height: 76px;
       border-radius: 50%;
@@ -1079,7 +1095,7 @@
 
     .demo-badge {
       position: absolute;
-      z-index: 1;
+      z-index: 2;
       top: 14px;
       left: 14px;
       padding: 7px 10px;
@@ -1154,25 +1170,19 @@
       padding: 0;
       border: 0;
       border-radius: 13px;
-      background: transparent;
+      background: linear-gradient(145deg, #eef7ff, #dfefff);
       cursor: pointer;
       overflow: hidden;
-    }
-
-    .preview-media:hover .preview-image {
-      transform: scale(1.025);
     }
 
     .preview-image {
       display: block;
       width: 100%;
-      min-height: 130px;
-      aspect-ratio: 16 / 9;
+      height: auto;
       border-radius: 13px;
-      object-fit: cover;
+      object-fit: contain;
       object-position: top center;
       background: linear-gradient(145deg, #eef7ff, #dfefff);
-      transition: transform 180ms ease;
     }
 
     .preview-visual {
@@ -1403,7 +1413,9 @@
     .video-dialog video {
       display: block;
       width: 100%;
+      aspect-ratio: 1920 / 1032;
       max-height: 78vh;
+      object-fit: contain;
       background: #06172a;
     }
 
@@ -1453,20 +1465,10 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
-    /* Landing page carousel polish */
-    .demo-background-video {
-      position: absolute;
-      z-index: 0;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.34;
-    }
-
     .demo-thumbnail::before,
     .demo-thumbnail::after {
-      z-index: 0;
+      z-index: 1;
+      opacity: 0.08;
     }
 
     .feature-carousel,
@@ -1509,7 +1511,7 @@
     }
 
     .screenshot-carousel .preview-card {
-      flex: 0 0 min(84vw, 720px);
+      flex: 0 0 clamp(220px, 64vw, 560px);
       scroll-snap-align: none;
     }
 
@@ -1524,7 +1526,7 @@
       }
 
       .screenshot-carousel .preview-card {
-        flex-basis: min(68vw, 720px);
+        flex-basis: min(52vw, 560px);
       }
     }
 
@@ -1619,8 +1621,8 @@
     }
 
     @keyframes journey-step {
-      0%, 12%, 100% { border-color: var(--line); box-shadow: 0 10px 26px rgba(8, 66, 130, 0.07); color: var(--text); }
-      5%, 9% { border-color: rgba(8, 120, 255, 0.6); box-shadow: 0 14px 30px rgba(8, 120, 255, 0.2); color: var(--primary-deep); }
+      0%, 12%, 100% { opacity: 0.9; transform: translateY(0); }
+      5%, 9% { opacity: 1; transform: translateY(-1px); }
     }
 
     @media (max-width: 699px) {
@@ -1718,10 +1720,9 @@
       height: 180px;
       content: '';
       border-radius: 50%;
-      filter: blur(34px);
+      filter: blur(26px);
       opacity: 0.22;
       pointer-events: none;
-      animation: hero-glow-drift 10s ease-in-out infinite alternate;
     }
 
     .hero-grid::before {
@@ -1736,7 +1737,6 @@
       width: 136px;
       height: 136px;
       background: rgba(8, 120, 255, 0.6);
-      animation-delay: -4s;
     }
 
     .hero-card {
@@ -1779,10 +1779,9 @@
       border-radius: 50%;
       content: '';
       background: rgba(28, 199, 255, 0.26);
-      filter: blur(28px);
+      filter: blur(20px);
       opacity: 0.45;
       pointer-events: none;
-      animation: hero-card-glow 12s ease-in-out infinite alternate;
     }
 
     .hero-card .btn-primary[data-contact="WhatsApp"] {
@@ -1832,20 +1831,10 @@
       to { rotate: 360deg; }
     }
 
-    @keyframes hero-card-glow {
-      from { translate: -5px 5px; scale: 0.94; }
-      to { translate: 8px -6px; scale: 1.06; }
-    }
-
     @keyframes whatsapp-attention {
       0%, 87%, 100% { scale: 1; }
       92% { scale: 1.03; }
       96% { scale: 1; }
-    }
-
-    @keyframes hero-glow-drift {
-      from { translate: -7px 5px; scale: 0.96; }
-      to { translate: 9px -8px; scale: 1.06; }
     }
 
     @media (max-width: 699px) {
@@ -1867,10 +1856,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .hero-card.is-visible,
-      .hero-grid::before,
-      .hero-grid::after,
       .hero-card::before,
-      .hero-card::after,
       .hero-card .btn-primary[data-contact="WhatsApp"] {
         animation: none;
       }
@@ -1891,12 +1877,11 @@
       content: '';
       pointer-events: none;
       opacity: 0.3;
-      filter: blur(20px);
+      filter: blur(16px);
       background:
         radial-gradient(ellipse at 18% 58%, rgba(28, 199, 255, 0.32), transparent 44%),
         radial-gradient(ellipse at 55% 44%, rgba(8, 120, 255, 0.2), transparent 48%),
         repeating-radial-gradient(ellipse at 18% 78%, rgba(115, 215, 255, 0.12) 0 1px, transparent 2px 28px);
-      animation: hero-ocean-light 18s ease-in-out infinite alternate;
     }
 
     .hero::before {
@@ -1908,7 +1893,6 @@
       right: -26%;
       bottom: 2%;
       opacity: 0.2;
-      animation-delay: -8s;
     }
 
     .hero-grid {
@@ -1999,14 +1983,20 @@
       white-space: nowrap;
     }
 
-    @keyframes hero-ocean-light {
-      from { translate: -2% 2%; rotate: -2deg; scale: 0.98; }
-      to { translate: 5% -4%; rotate: 2deg; scale: 1.04; }
+    @keyframes operations-live-pulse {
+      0%, 100% { transform: scale(0.92); opacity: 0.76; }
+      50% { transform: scale(1); opacity: 1; }
     }
 
-    @keyframes operations-live-pulse {
-      0%, 100% { box-shadow: 0 0 0 4px rgba(32, 184, 103, 0.12); }
-      50% { box-shadow: 0 0 0 7px rgba(32, 184, 103, 0.04); }
+    .hero:not(.is-motion-active) .hero-card.is-visible,
+    .hero:not(.is-motion-active) .hero-card::before,
+    .hero:not(.is-motion-active) .hero-card .btn-primary[data-contact="WhatsApp"],
+    .diagram:not(.is-motion-active) .diagram-step {
+      animation-play-state: paused;
+    }
+
+    .diagram:not(.is-motion-active) .journey-wave-dot {
+      display: none;
     }
 
     @media (max-width: 699px) {
@@ -2228,11 +2218,8 @@
         </div>
         <article class="demo-card" data-animate>
           <div class="demo-thumbnail">
-            <!-- Replace Demo Video Path -->
-            <video class="demo-background-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-              <source src="videos/yalla-sahel-demo.mp4" type="video/mp4">
-            </video>
             <span class="demo-badge" data-i18n="demoBadge">60-Second System Demo</span>
+            <img class="demo-poster" src="assets/videos/demo-poster.jpg" alt="Yalla Sahel system demo preview" width="1920" height="1032" loading="lazy" decoding="async">
             <button class="play-button js-demo-trigger" type="button" data-i18n-aria="playDemo" aria-label="Play system demo">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>
             </button>
@@ -2367,7 +2354,7 @@
       </button>
       <h2 id="videoModalTitle" class="sr-only" data-i18n="videoTitle">Yalla Sahel System Demo</h2>
       <!-- Replace Demo Video Path -->
-      <video id="demoVideo" controls loop playsinline preload="metadata" src="videos/yalla-sahel-demo.mp4"></video>
+      <video id="demoVideo" controls loop playsinline preload="metadata" width="1920" height="1032" poster="assets/videos/demo-poster.jpg" data-src="assets/videos/demo.mp4"></video>
     </div>
   </div>
 
@@ -2403,16 +2390,16 @@
 
     // Homepage dashboard screenshots, selected from the supplied product capture set.
     const homepageCarouselImages = {
-      posCheckout: 'assets/homepage-carousel/screenshots/IMG_5248.PNG',
-      ticketManager: 'assets/homepage-carousel/screenshots/IMG_5245.PNG',
-      availability: 'assets/homepage-carousel/screenshots/IMG_5246.PNG',
-      memberships: 'assets/homepage-carousel/screenshots/IMG_5264.PNG',
-      foodDrinks: 'assets/homepage-carousel/screenshots/IMG_5269.PNG',
-      liveCapacity: 'assets/homepage-carousel/screenshots/IMG_5262.PNG',
-      qrScanner: 'assets/homepage-carousel/screenshots/IMG_5259.PNG',
-      entryGranted: 'assets/homepage-carousel/screenshots/IMG_5252.PNG',
-      salesReports: 'assets/homepage-carousel/screenshots/IMG_5249.PNG',
-      insights: 'assets/homepage-carousel/screenshots/IMG_5265.PNG'
+      posCheckout: 'assets/homepage-carousel/screenshots/IMG_5248.webp',
+      ticketManager: 'assets/homepage-carousel/screenshots/IMG_5245.webp',
+      availability: 'assets/homepage-carousel/screenshots/IMG_5246.webp',
+      memberships: 'assets/homepage-carousel/screenshots/IMG_5264.webp',
+      foodDrinks: 'assets/homepage-carousel/screenshots/IMG_5269.webp',
+      liveCapacity: 'assets/homepage-carousel/screenshots/IMG_5262.webp',
+      qrScanner: 'assets/homepage-carousel/screenshots/IMG_5259.webp',
+      entryGranted: 'assets/homepage-carousel/screenshots/IMG_5252.webp',
+      salesReports: 'assets/homepage-carousel/screenshots/IMG_5249.webp',
+      insights: 'assets/homepage-carousel/screenshots/IMG_5265.webp'
     };
 
     const content = {
@@ -2739,6 +2726,8 @@
 
     const state = { lang: 'en' };
     const motionAllowed = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const visibilityMotionEnabled = motionAllowed && 'IntersectionObserver' in window;
+    let heroMotionActive = !visibilityMotionEnabled;
     const revealObserver = motionAllowed && 'IntersectionObserver' in window
       ? new IntersectionObserver(entries => {
           entries.forEach(entry => {
@@ -2749,6 +2738,44 @@
           });
         }, { threshold: 0.14 })
       : null;
+
+    const motionVisibilityObserver = visibilityMotionEnabled
+      ? new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            entry.target.classList.toggle('is-motion-active', entry.isIntersecting);
+            if (entry.target.classList.contains('hero')) {
+              heroMotionActive = entry.isIntersecting;
+              setHeroStatusTickerActive(entry.isIntersecting);
+            }
+          });
+        }, { threshold: 0.08 })
+      : null;
+
+    const carouselVisibilityObserver = visibilityMotionEnabled
+      ? new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            const carouselState = entry.target._carouselState;
+            if (!carouselState) return;
+            carouselState.isInView = entry.isIntersecting;
+            if (entry.isIntersecting) {
+              carouselState.start();
+            } else if (carouselState.frameId) {
+              window.cancelAnimationFrame(carouselState.frameId);
+              carouselState.frameId = 0;
+              carouselState.previousTime = 0;
+            }
+          });
+        }, { threshold: 0.08 })
+      : null;
+
+    function observeMotion(element) {
+      if (!element) return;
+      if (motionVisibilityObserver) {
+        motionVisibilityObserver.observe(element);
+      } else {
+        element.classList.add('is-motion-active');
+      }
+    }
 
     function observeAnimated() {
       document.querySelectorAll('[data-animate]').forEach(element => {
@@ -2773,14 +2800,18 @@
 
     function renderHomepageScreens(lang) {
       const carousel = document.querySelector('#screenshotCarousel');
-      carousel.innerHTML = content[lang].carouselScreens.map(([label, imageKey], index) => `
+      carousel.innerHTML = content[lang].carouselScreens.map(([label, imageKey], index) => {
+        const imagePath = homepageCarouselImages[imageKey];
+        const compactImagePath = imagePath.replace('.webp', '-640.webp');
+        return `
         <article class="preview-card" data-animate style="--step-index: ${index}">
           <button class="preview-media js-image-preview" type="button">
-            <img class="preview-image" src="${homepageCarouselImages[imageKey]}" alt="${label} dashboard preview">
+            <img class="preview-image" src="${imagePath}" srcset="${compactImagePath} 640w, ${imagePath} 1290w" sizes="(min-width: 700px) 52vw, 64vw" alt="${label} dashboard preview" width="1290" height="726" loading="lazy" decoding="async">
           </button>
           <h3>${label}</h3>
         </article>
-      `).join('');
+      `;
+      }).join('');
     }
 
     function renderModules(lang) {
@@ -2829,23 +2860,32 @@
 
     let statusTickerIndex = 0;
     let statusTickerTimer;
+    let statusTickerMessages = [];
 
-    function startStatusTicker(lang) {
-      const status = document.querySelector('#platformStatus');
-      const messages = content[lang].platformStatuses;
+    function setHeroStatusTickerActive(isActive) {
       window.clearInterval(statusTickerTimer);
-      statusTickerIndex = 0;
-      status.textContent = messages[statusTickerIndex];
-
-      if (!motionAllowed) return;
+      statusTickerTimer = 0;
+      if (!isActive || !motionAllowed || !statusTickerMessages.length) return;
+      const status = document.querySelector('#platformStatus');
       statusTickerTimer = window.setInterval(() => {
+        if (!heroMotionActive) return;
         status.classList.add('is-changing');
         window.setTimeout(() => {
-          statusTickerIndex = (statusTickerIndex + 1) % messages.length;
-          status.textContent = messages[statusTickerIndex];
+          if (!heroMotionActive) return;
+          statusTickerIndex = (statusTickerIndex + 1) % statusTickerMessages.length;
+          status.textContent = statusTickerMessages[statusTickerIndex];
           status.classList.remove('is-changing');
         }, 180);
       }, 2400);
+    }
+
+    function startStatusTicker(lang) {
+      const status = document.querySelector('#platformStatus');
+      statusTickerMessages = content[lang].platformStatuses;
+      window.clearInterval(statusTickerTimer);
+      statusTickerIndex = 0;
+      status.textContent = statusTickerMessages[statusTickerIndex];
+      setHeroStatusTickerActive(heroMotionActive);
     }
 
     function setupHeroCounters() {
@@ -2896,6 +2936,7 @@
 
       if (container._carouselState) {
         window.cancelAnimationFrame(container._carouselState.frameId);
+        carouselVisibilityObserver?.unobserve(container);
       }
 
       const track = container.matches(itemSelector) ? container.parentElement : container.querySelector(itemSelector)?.parentElement;
@@ -2917,7 +2958,7 @@
       const firstItem = itemParent.querySelector(itemSelector);
       const loopWidth = firstClone.offsetLeft - firstItem.offsetLeft;
       const direction = document.documentElement.dir === 'rtl' ? -1 : 1;
-      const state = { frameId: 0, paused: false, previousTime: 0, loopWidth, direction };
+      const state = { frameId: 0, paused: false, previousTime: 0, loopWidth, direction, isInView: !carouselVisibilityObserver, start: null };
       container._carouselState = state;
       container.scrollLeft = direction === 1 ? 0 : loopWidth;
 
@@ -2930,6 +2971,12 @@
           if (state.direction === 1 && container.scrollLeft >= state.loopWidth) container.scrollLeft -= state.loopWidth;
           if (state.direction === -1 && container.scrollLeft <= 0) container.scrollLeft += state.loopWidth;
         }
+        state.frameId = state.isInView ? window.requestAnimationFrame(animate) : 0;
+      };
+
+      state.start = () => {
+        if (!state.isInView || state.frameId) return;
+        state.previousTime = 0;
         state.frameId = window.requestAnimationFrame(animate);
       };
 
@@ -2949,7 +2996,11 @@
         container.dataset.carouselEvents = 'true';
       }
 
-      state.frameId = window.requestAnimationFrame(animate);
+      if (carouselVisibilityObserver) {
+        carouselVisibilityObserver.observe(container);
+      } else {
+        state.start();
+      }
     }
 
     function setLanguage(lang) {
@@ -2980,6 +3031,8 @@
       renderDiagram(lang);
       renderLists(lang);
       startStatusTicker(lang);
+      observeMotion(document.querySelector('.hero'));
+      observeMotion(document.querySelector('#diagram'));
       setupInfiniteCarousel(document.querySelector('#featureCarousel'), '.feature-card', 40);
       setupInfiniteCarousel(document.querySelector('#screenshotCarousel'), '.preview-card', 46);
       observeAnimated();
@@ -2993,7 +3046,15 @@
     const demoVideo = document.querySelector('#demoVideo');
     const modalClose = document.querySelector('.modal-close');
 
+    function loadDemoVideo() {
+      if (demoVideo.dataset.loaded) return;
+      demoVideo.src = demoVideo.dataset.src;
+      demoVideo.dataset.loaded = 'true';
+      demoVideo.load();
+    }
+
     function openDemoModal() {
+      loadDemoVideo();
       videoModal.classList.add('is-open');
       videoModal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
@@ -3025,7 +3086,7 @@
     const imagePreviewClose = document.querySelector('.image-preview-close');
 
     function openImagePreview(image) {
-      imagePreviewImage.src = image.currentSrc || image.src;
+      imagePreviewImage.src = image.src;
       imagePreviewImage.alt = image.alt;
       imagePreviewModal.classList.add('is-open');
       imagePreviewModal.setAttribute('aria-hidden', 'false');
