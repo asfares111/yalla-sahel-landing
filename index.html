@@ -1557,11 +1557,12 @@
 
     .feature-carousel,
     .screenshot-carousel {
-      overflow-x: auto;
-      overflow-y: hidden;
+      position: relative;
+      width: 100%;
+      overflow: hidden;
       overscroll-behavior-x: contain;
       scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y pinch-zoom;
     }
 
     .feature-carousel::-webkit-scrollbar,
@@ -1570,15 +1571,19 @@
     }
 
     .feature-carousel {
-      margin-inline: -16px;
-      padding-inline: 16px;
+      margin-inline: 0;
+      padding-inline: 0;
     }
 
     .carousel-track,
     .feature-carousel .features-grid {
       display: flex;
+      flex: 0 0 auto;
+      flex-wrap: nowrap;
       width: max-content;
+      min-width: max-content;
       gap: 12px;
+      padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
       --carousel-distance: -50%;
       transform: translate3d(0, 0, 0);
       -webkit-transform: translate3d(0, 0, 0);
@@ -1617,9 +1622,10 @@
     }
 
     .screenshot-carousel {
+      display: block;
       max-width: none;
       margin: 0;
-      padding-inline: 2px;
+      padding-inline: 0;
       scroll-snap-type: none;
       scroll-behavior: auto;
     }
@@ -3110,9 +3116,48 @@
       }
 
       if (!container.dataset.carouselEvents) {
-        const pauseTouch = () => container.classList.add('is-touching');
-        const resumeTouch = () => container.classList.remove('is-touching');
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchStartTranslate = 0;
+
+        const currentTranslateX = () => {
+          const transform = getComputedStyle(track).transform;
+          if (!transform || transform === 'none') return 0;
+          const Matrix = window.DOMMatrixReadOnly || window.WebKitCSSMatrix;
+          if (!Matrix) return 0;
+          const matrix = new Matrix(transform);
+          return matrix.m41 || 0;
+        };
+
+        const pauseTouch = event => {
+          const touch = event.touches && event.touches[0];
+          if (!touch) return;
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+          touchStartTranslate = currentTranslateX();
+          container.classList.add('is-touching');
+        };
+
+        const moveTouch = event => {
+          const touch = event.touches && event.touches[0];
+          if (!touch || !container.classList.contains('is-touching')) return;
+          const deltaX = touch.clientX - touchStartX;
+          const deltaY = touch.clientY - touchStartY;
+          if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
+          event.preventDefault();
+          const nextTranslate = touchStartTranslate + deltaX;
+          track.style.transform = `translate3d(${nextTranslate}px, 0, 0)`;
+          track.style.webkitTransform = `translate3d(${nextTranslate}px, 0, 0)`;
+        };
+
+        const resumeTouch = () => {
+          container.classList.remove('is-touching');
+          track.style.transform = '';
+          track.style.webkitTransform = '';
+        };
+
         container.addEventListener('touchstart', pauseTouch, { passive: true });
+        container.addEventListener('touchmove', moveTouch, { passive: false });
         container.addEventListener('touchend', resumeTouch, { passive: true });
         container.addEventListener('touchcancel', resumeTouch, { passive: true });
         container.dataset.carouselEvents = 'true';
@@ -3280,6 +3325,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
