@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
@@ -15,8 +15,8 @@
   <meta property="og:title" content="Yalla Sahel | Beach Operations Platform">
   <meta property="og:description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
   <meta property="article:author" content="Amir Fares">
-  <meta property="og:image" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
-  <meta property="og:image:secure_url" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
+  <meta property="og:image" content="https://yallasahel.com/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://yallasahel.com/assets/og-image.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -25,7 +25,7 @@
   <meta name="twitter:url" content="https://yallasahel.com/">
   <meta name="twitter:title" content="Yalla Sahel | Beach Operations Platform">
   <meta name="twitter:description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
-  <meta name="twitter:image" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
+  <meta name="twitter:image" content="https://yallasahel.com/assets/og-image.png">
   <meta name="twitter:image:alt" content="Yalla Sahel Beach Operations Platform dashboard preview with Amir Fares contact details">
   <link rel="icon" type="image/svg+xml" href="assets/yallasahel-logo.svg">
   <link rel="preload" as="image" href="assets/yallasahel-logo.svg" fetchpriority="high">
@@ -1558,6 +1558,7 @@
     .feature-carousel,
     .screenshot-carousel {
       overflow-x: auto;
+      overflow-y: hidden;
       overscroll-behavior-x: contain;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
@@ -1573,10 +1574,40 @@
       padding-inline: 16px;
     }
 
+    .carousel-track,
     .feature-carousel .features-grid {
       display: flex;
       width: max-content;
       gap: 12px;
+      --carousel-distance: -50%;
+      transform: translate3d(0, 0, 0);
+      -webkit-transform: translate3d(0, 0, 0);
+      will-change: transform;
+      animation-name: carousel-move-ltr;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-play-state: paused;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .is-carousel-visible .carousel-track,
+    .is-carousel-visible.feature-carousel .features-grid {
+      animation-play-state: running;
+    }
+
+    .is-rtl-carousel .carousel-track,
+    .is-rtl-carousel.feature-carousel .features-grid {
+      animation-name: carousel-move-rtl;
+    }
+
+    .feature-carousel .features-grid {
+      animation-duration: 28s;
+    }
+
+    .screenshot-carousel .carousel-track {
+      gap: 16px;
+      animation-duration: 34s;
     }
 
     .feature-carousel .feature-card {
@@ -1586,7 +1617,6 @@
     }
 
     .screenshot-carousel {
-      gap: 16px;
       max-width: none;
       margin: 0;
       padding-inline: 2px;
@@ -1597,6 +1627,52 @@
     .screenshot-carousel .preview-card {
       flex: 0 0 clamp(220px, 64vw, 560px);
       scroll-snap-align: none;
+    }
+
+    .feature-carousel.is-touching .features-grid,
+    .screenshot-carousel.is-touching .carousel-track {
+      animation-play-state: paused;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .feature-carousel:hover .features-grid,
+      .screenshot-carousel:hover .carousel-track {
+        animation-play-state: paused;
+      }
+    }
+
+    @keyframes carousel-move-ltr {
+      from {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        transform: translate3d(var(--carousel-distance), 0, 0);
+        -webkit-transform: translate3d(var(--carousel-distance), 0, 0);
+      }
+    }
+
+    @keyframes carousel-move-rtl {
+      from {
+        transform: translate3d(var(--carousel-distance), 0, 0);
+        -webkit-transform: translate3d(var(--carousel-distance), 0, 0);
+      }
+
+      to {
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .carousel-track,
+      .feature-carousel .features-grid {
+        animation: none;
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        will-change: auto;
+      }
     }
 
     @media (min-width: 700px) {
@@ -2834,16 +2910,7 @@
     const carouselVisibilityObserver = visibilityMotionEnabled
       ? new IntersectionObserver(entries => {
           entries.forEach(entry => {
-            const carouselState = entry.target._carouselState;
-            if (!carouselState) return;
-            carouselState.isInView = entry.isIntersecting;
-            if (entry.isIntersecting) {
-              carouselState.start();
-            } else if (carouselState.frameId) {
-              window.cancelAnimationFrame(carouselState.frameId);
-              carouselState.frameId = 0;
-              carouselState.previousTime = 0;
-            }
+            entry.target.classList.toggle('is-carousel-visible', entry.isIntersecting);
           });
         }, { threshold: 0.08 })
       : null;
@@ -2880,7 +2947,7 @@
 
     function renderHomepageScreens(lang) {
       const carousel = document.querySelector('#screenshotCarousel');
-      carousel.innerHTML = content[lang].carouselScreens.map(([label, imageKey], index) => {
+      const cards = content[lang].carouselScreens.map(([label, imageKey], index) => {
         const imagePath = homepageCarouselImages[imageKey];
         const compactImagePath = imagePath.replace('.webp', '-640.webp');
         return `
@@ -2892,6 +2959,7 @@
         </article>
       `;
       }).join('');
+      carousel.innerHTML = `<div class="carousel-track screenshot-track">${cards}</div>`;
     }
 
     function renderModules(lang) {
@@ -3011,75 +3079,50 @@
       heroCounterObserver.observe(document.querySelector('.hero'));
     }
 
-    function setupInfiniteCarousel(container, itemSelector, pixelsPerSecond) {
+    function setupInfiniteCarousel(container, itemSelector) {
       if (!container) return;
 
-      if (container._carouselState) {
-        window.cancelAnimationFrame(container._carouselState.frameId);
-        carouselVisibilityObserver?.unobserve(container);
+      if (carouselVisibilityObserver) carouselVisibilityObserver.unobserve(container);
+      const track = container.querySelector('.carousel-track') || container.querySelector('#featuresGrid');
+      if (!track) return;
+
+      track.querySelectorAll('[data-carousel-clone]').forEach(item => item.remove());
+      container.classList.toggle('is-rtl-carousel', document.documentElement.dir === 'rtl');
+
+      const items = Array.from(track.querySelectorAll(`:scope > ${itemSelector}:not([data-carousel-clone])`));
+      if (!motionAllowed || items.length < 2) {
+        container.classList.add('is-carousel-visible');
+        return;
       }
-
-      const track = container.matches(itemSelector) ? container.parentElement : container.querySelector(itemSelector)?.parentElement;
-      const itemParent = track === container ? container : track;
-      itemParent.querySelectorAll('[data-carousel-clone]').forEach(item => item.remove());
-
-      const items = Array.from(itemParent.querySelectorAll(`:scope > ${itemSelector}`));
-      if (!motionAllowed || items.length < 2) return;
 
       items.forEach(item => {
         const clone = item.cloneNode(true);
         clone.setAttribute('data-carousel-clone', '');
         clone.setAttribute('aria-hidden', 'true');
         clone.querySelectorAll('button, a').forEach(control => control.tabIndex = -1);
-        itemParent.appendChild(clone);
+        track.appendChild(clone);
       });
 
-      const firstClone = itemParent.querySelector('[data-carousel-clone]');
-      const firstItem = itemParent.querySelector(itemSelector);
-      const loopWidth = firstClone.offsetLeft - firstItem.offsetLeft;
-      const direction = document.documentElement.dir === 'rtl' ? -1 : 1;
-      const state = { frameId: 0, paused: false, previousTime: 0, loopWidth, direction, isInView: !carouselVisibilityObserver, start: null };
-      container._carouselState = state;
-      container.scrollLeft = direction === 1 ? 0 : loopWidth;
-
-      const animate = time => {
-        if (!state.previousTime) state.previousTime = time;
-        const delta = Math.min(time - state.previousTime, 64);
-        state.previousTime = time;
-        if (!state.paused) {
-          container.scrollLeft += state.direction * pixelsPerSecond * delta / 1000;
-          if (state.direction === 1 && container.scrollLeft >= state.loopWidth) container.scrollLeft -= state.loopWidth;
-          if (state.direction === -1 && container.scrollLeft <= 0) container.scrollLeft += state.loopWidth;
-        }
-        state.frameId = state.isInView ? window.requestAnimationFrame(animate) : 0;
-      };
-
-      state.start = () => {
-        if (!state.isInView || state.frameId) return;
-        state.previousTime = 0;
-        state.frameId = window.requestAnimationFrame(animate);
-      };
+      const firstItem = items[0];
+      const firstClone = track.querySelector('[data-carousel-clone]');
+      if (firstItem && firstClone) {
+        track.style.setProperty('--carousel-distance', `${(firstClone.offsetLeft - firstItem.offsetLeft) * -1}px`);
+      }
 
       if (!container.dataset.carouselEvents) {
-        const pause = () => { if (container._carouselState) container._carouselState.paused = true; };
-        const resume = () => {
-          if (container._carouselState) {
-            container._carouselState.paused = false;
-            container._carouselState.previousTime = 0;
-          }
-        };
-        container.addEventListener('mouseenter', pause);
-        container.addEventListener('mouseleave', resume);
-        container.addEventListener('touchstart', pause, { passive: true });
-        container.addEventListener('touchend', resume, { passive: true });
-        container.addEventListener('touchcancel', resume, { passive: true });
+        const pauseTouch = () => container.classList.add('is-touching');
+        const resumeTouch = () => container.classList.remove('is-touching');
+        container.addEventListener('touchstart', pauseTouch, { passive: true });
+        container.addEventListener('touchend', resumeTouch, { passive: true });
+        container.addEventListener('touchcancel', resumeTouch, { passive: true });
         container.dataset.carouselEvents = 'true';
       }
 
       if (carouselVisibilityObserver) {
+        container.classList.remove('is-carousel-visible');
         carouselVisibilityObserver.observe(container);
       } else {
-        state.start();
+        container.classList.add('is-carousel-visible');
       }
     }
 
@@ -3113,8 +3156,8 @@
       startStatusTicker(lang);
       observeMotion(document.querySelector('.hero'));
       observeMotion(document.querySelector('#diagram'));
-      setupInfiniteCarousel(document.querySelector('#featureCarousel'), '.feature-card', 40);
-      setupInfiniteCarousel(document.querySelector('#screenshotCarousel'), '.preview-card', 46);
+      setupInfiniteCarousel(document.querySelector('#featureCarousel'), '.feature-card');
+      setupInfiniteCarousel(document.querySelector('#screenshotCarousel'), '.preview-card');
       observeAnimated();
     }
 
@@ -3237,3 +3280,9 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+

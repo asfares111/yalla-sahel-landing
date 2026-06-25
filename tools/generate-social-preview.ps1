@@ -1,4 +1,4 @@
-Add-Type -AssemblyName System.Drawing
+﻿Add-Type -AssemblyName System.Drawing
 
 function New-RoundedRectanglePath {
   param(
@@ -18,7 +18,7 @@ function New-RoundedRectanglePath {
 
 $root = Split-Path -Parent $PSScriptRoot
 $sourcePath = Join-Path $root 'assets\homepage-carousel\screenshots\IMG_5265.PNG'
-$outputPath = Join-Path $root 'assets\yalla-sahel-social-preview.png'
+$outputPath = Join-Path $root 'assets\og-image.png'
 
 $canvas = New-Object System.Drawing.Bitmap 1200, 630
 $graphics = [System.Drawing.Graphics]::FromImage($canvas)
@@ -84,3 +84,4 @@ $background.Dispose()
 $graphics.Dispose()
 $canvas.Save($outputPath, [System.Drawing.Imaging.ImageFormat]::Png)
 $canvas.Dispose()
+
