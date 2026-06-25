@@ -1606,6 +1606,13 @@
       animation-name: carousel-move-rtl;
     }
 
+    .is-ios-js-carousel .carousel-track,
+    .is-ios-js-carousel.feature-carousel .features-grid {
+      animation: none;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+
     .feature-carousel .features-grid {
       animation-duration: 28s;
     }
@@ -2887,6 +2894,12 @@
     });
 
     const state = { lang: 'en' };
+    const isIOSSafari = (() => {
+      const ua = window.navigator.userAgent;
+      const isiOS = /iP(hone|od|ad)/.test(ua) || (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+      const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua);
+      return isiOS && isSafari;
+    })();
     const motionAllowed = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const visibilityMotionEnabled = motionAllowed && 'IntersectionObserver' in window;
     let heroMotionActive = !visibilityMotionEnabled;
@@ -3089,11 +3102,16 @@
       if (!container) return;
 
       if (carouselVisibilityObserver) carouselVisibilityObserver.unobserve(container);
+      if (container._iosCarouselState?.frameId) window.cancelAnimationFrame(container._iosCarouselState.frameId);
+
       const track = container.querySelector('.carousel-track') || container.querySelector('#featuresGrid');
       if (!track) return;
 
       track.querySelectorAll('[data-carousel-clone]').forEach(item => item.remove());
       container.classList.toggle('is-rtl-carousel', document.documentElement.dir === 'rtl');
+      container.classList.toggle('is-ios-js-carousel', isIOSSafari && motionAllowed);
+      track.style.transform = '';
+      track.style.webkitTransform = '';
 
       const items = Array.from(track.querySelectorAll(`:scope > ${itemSelector}:not([data-carousel-clone])`));
       if (!motionAllowed || items.length < 2) {
@@ -3111,17 +3129,63 @@
 
       const firstItem = items[0];
       const firstClone = track.querySelector('[data-carousel-clone]');
-      if (firstItem && firstClone) {
-        track.style.setProperty('--carousel-distance', `${(firstClone.offsetLeft - firstItem.offsetLeft) * -1}px`);
-      }
+      const loopWidth = firstItem && firstClone ? firstClone.offsetLeft - firstItem.offsetLeft : 0;
+      if (loopWidth) track.style.setProperty('--carousel-distance', `${loopWidth * -1}px`);
+
+      const rtl = document.documentElement.dir === 'rtl';
+      const duration = container.id === 'featureCarousel' ? 28 : 34;
+      const speed = loopWidth ? loopWidth / duration : 0;
+      const normalizeOffset = value => {
+        if (!loopWidth) return 0;
+        let next = value;
+        while (next <= loopWidth * -1) next += loopWidth;
+        while (next > 0) next -= loopWidth;
+        return next;
+      };
+
+      const setTrackTranslate = value => {
+        track.style.transform = `translate3d(${value}px, 0, 0)`;
+        track.style.webkitTransform = `translate3d(${value}px, 0, 0)`;
+      };
+
+      const carouselState = isIOSSafari
+        ? {
+            frameId: 0,
+            offset: rtl ? loopWidth * -1 : 0,
+            previousTime: 0,
+            paused: false,
+            resumeTimer: 0,
+            direction: rtl ? 1 : -1
+          }
+        : null;
+      container._iosCarouselState = carouselState;
+
+      const startIOSAnimation = () => {
+        if (!isIOSSafari || !loopWidth || carouselState.frameId) return;
+        const animate = time => {
+          if (!carouselState.previousTime) carouselState.previousTime = time;
+          const delta = Math.min(time - carouselState.previousTime, 64);
+          carouselState.previousTime = time;
+          if (!carouselState.paused) {
+            carouselState.offset = normalizeOffset(carouselState.offset + carouselState.direction * speed * delta / 1000);
+            setTrackTranslate(carouselState.offset);
+          }
+          carouselState.frameId = window.requestAnimationFrame(animate);
+        };
+        setTrackTranslate(carouselState.offset);
+        carouselState.frameId = window.requestAnimationFrame(animate);
+      };
 
       if (!container.dataset.carouselEvents) {
         let touchStartX = 0;
         let touchStartY = 0;
         let touchStartTranslate = 0;
+        const activeTrack = () => container.querySelector('.carousel-track') || container.querySelector('#featuresGrid') || track;
 
         const currentTranslateX = () => {
-          const transform = getComputedStyle(track).transform;
+          if (container._iosCarouselState) return container._iosCarouselState.offset;
+          const liveTrack = activeTrack();
+          const transform = getComputedStyle(liveTrack).transform;
           if (!transform || transform === 'none') return 0;
           const Matrix = window.DOMMatrixReadOnly || window.WebKitCSSMatrix;
           if (!Matrix) return 0;
@@ -3132,6 +3196,8 @@
         const pauseTouch = event => {
           const touch = event.touches && event.touches[0];
           if (!touch) return;
+          window.clearTimeout(container._iosCarouselState?.resumeTimer);
+          if (container._iosCarouselState) container._iosCarouselState.paused = true;
           touchStartX = touch.clientX;
           touchStartY = touch.clientY;
           touchStartTranslate = currentTranslateX();
@@ -3145,15 +3211,29 @@
           const deltaY = touch.clientY - touchStartY;
           if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
           event.preventDefault();
-          const nextTranslate = touchStartTranslate + deltaX;
-          track.style.transform = `translate3d(${nextTranslate}px, 0, 0)`;
-          track.style.webkitTransform = `translate3d(${nextTranslate}px, 0, 0)`;
+          const nextTranslate = normalizeOffset(touchStartTranslate + deltaX);
+          const liveTrack = activeTrack();
+          if (container._iosCarouselState) {
+            container._iosCarouselState.offset = nextTranslate;
+            setTrackTranslate(nextTranslate);
+          } else {
+            liveTrack.style.transform = `translate3d(${nextTranslate}px, 0, 0)`;
+            liveTrack.style.webkitTransform = `translate3d(${nextTranslate}px, 0, 0)`;
+          }
         };
 
         const resumeTouch = () => {
           container.classList.remove('is-touching');
-          track.style.transform = '';
-          track.style.webkitTransform = '';
+          if (container._iosCarouselState) {
+            container._iosCarouselState.previousTime = 0;
+            container._iosCarouselState.resumeTimer = window.setTimeout(() => {
+              if (container._iosCarouselState) container._iosCarouselState.paused = false;
+            }, 180);
+          } else {
+            const liveTrack = activeTrack();
+            liveTrack.style.transform = '';
+            liveTrack.style.webkitTransform = '';
+          }
         };
 
         container.addEventListener('touchstart', pauseTouch, { passive: true });
@@ -3163,7 +3243,10 @@
         container.dataset.carouselEvents = 'true';
       }
 
-      if (carouselVisibilityObserver) {
+      if (isIOSSafari) {
+        container.classList.add('is-carousel-visible');
+        startIOSAnimation();
+      } else if (carouselVisibilityObserver) {
         container.classList.remove('is-carousel-visible');
         carouselVisibilityObserver.observe(container);
       } else {
@@ -3325,6 +3408,9 @@
   </script>
 </body>
 </html>
+
+
+
 
 
 
