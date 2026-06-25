@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yalla Sahel | Beach Operations Platform</title>
-  <meta name="description" content="Manage reservations, QR check-ins, memberships, POS, reports and beach operations from one smart dashboard.">
+  <meta name="description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
   <meta name="author" content="Amir Fares">
   <meta name="author-role" content="Head of Business Development &amp; Partnerships">
   <link rel="canonical" href="https://yallasahel.com/">
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Yalla Sahel">
   <meta property="og:url" content="https://yallasahel.com/">
   <meta property="og:title" content="Yalla Sahel | Beach Operations Platform">
-  <meta property="og:description" content="Manage reservations, QR check-ins, memberships, POS, reports and beach operations from one smart dashboard.">
+  <meta property="og:description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
   <meta property="article:author" content="Amir Fares">
   <meta property="og:image" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
   <meta property="og:image:secure_url" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
@@ -24,10 +24,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://yallasahel.com/">
   <meta name="twitter:title" content="Yalla Sahel | Beach Operations Platform">
-  <meta name="twitter:description" content="Manage reservations, QR check-ins, memberships, POS, reports and beach operations from one smart dashboard.">
+  <meta name="twitter:description" content="Book a demo with Amir Fares, Head of Business Development &amp; Partnerships at Yalla Sahel. Manage tickets, memberships, QR check-ins, POS sales, live capacity and beach operations from one unified platform.">
   <meta name="twitter:image" content="https://yallasahel.com/assets/yalla-sahel-social-preview.png">
   <meta name="twitter:image:alt" content="Yalla Sahel Beach Operations Platform dashboard preview with Amir Fares contact details">
   <link rel="icon" type="image/svg+xml" href="assets/yallasahel-logo.svg">
+  <link rel="preload" as="image" href="assets/yallasahel-logo.svg" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -971,7 +972,9 @@
 
       body,
       .btn,
-      .reveal {
+      .reveal,
+      .demo-poster,
+      .play-button {
         animation: none;
         transition: none;
       }
@@ -979,6 +982,11 @@
       .reveal {
         opacity: 1;
         transform: none;
+      }
+
+      .demo-poster {
+        transform: none;
+        will-change: auto;
       }
     }
 
@@ -1028,6 +1036,7 @@
       background:
         radial-gradient(circle at 22% 20%, rgba(96, 191, 255, 0.58), transparent 12rem),
         linear-gradient(145deg, #0d73ee, #1bb0fb);
+      contain: paint;
     }
 
     .demo-thumbnail::before,
@@ -1046,8 +1055,13 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
+      transform: translateZ(0) scale(1);
+      -webkit-transform: translateZ(0) scale(1);
+      transform-origin: center;
+      animation: demo-poster-drift 20s ease-in-out infinite;
+      will-change: transform;
     }
 
     .demo-thumbnail::before {
@@ -1071,6 +1085,9 @@
     }
 
     .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       z-index: 2;
       width: 76px;
       height: 76px;
@@ -1078,12 +1095,35 @@
       background: rgba(255, 255, 255, 0.96);
       color: var(--primary);
       box-shadow: 0 14px 32px rgba(0, 56, 124, 0.3);
+      transform: translate3d(-50%, -50%, 0);
+      -webkit-transform: translate3d(-50%, -50%, 0);
       transition: transform 180ms ease, box-shadow 180ms ease;
+      will-change: transform;
     }
 
     .play-button:hover {
-      transform: scale(1.05);
+      transform: translate3d(-50%, -50%, 0) scale(1.05);
+      -webkit-transform: translate3d(-50%, -50%, 0) scale(1.05);
       box-shadow: 0 18px 36px rgba(0, 56, 124, 0.36);
+    }
+
+    .demo-thumbnail.is-playing .demo-poster {
+      animation: none;
+      transform: translateZ(0) scale(1);
+      -webkit-transform: translateZ(0) scale(1);
+      will-change: auto;
+    }
+
+    @keyframes demo-poster-drift {
+      0%, 100% {
+        transform: translateZ(0) scale(1);
+        -webkit-transform: translateZ(0) scale(1);
+      }
+
+      50% {
+        transform: translateZ(0) scale(1.03);
+        -webkit-transform: translateZ(0) scale(1.03);
+      }
     }
 
     .play-button svg {
@@ -1388,6 +1428,7 @@
       padding: 20px;
       background: rgba(7, 27, 52, 0.72);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .sr-only {
@@ -1409,6 +1450,7 @@
     .video-dialog {
       position: relative;
       width: min(100%, 900px);
+      max-height: calc(100dvh - 40px);
       border-radius: 18px;
       overflow: hidden;
       background: #06172a;
@@ -1418,8 +1460,9 @@
     .video-dialog video {
       display: block;
       width: 100%;
+      height: auto;
       aspect-ratio: 1920 / 1032;
-      max-height: 78vh;
+      max-height: min(78vh, calc(100dvh - 40px));
       object-fit: contain;
       background: #06172a;
     }
@@ -1439,6 +1482,42 @@
     body[dir="rtl"] .modal-close {
       right: auto;
       left: 10px;
+    }
+
+    @media (max-width: 699px) {
+      .play-button {
+        top: 53%;
+      }
+
+      .video-modal {
+        padding: 12px;
+      }
+
+      .video-dialog {
+        width: min(100%, calc((100dvh - 24px) * 1.8605));
+        max-height: calc(100dvh - 24px);
+      }
+
+      .video-dialog video {
+        max-height: calc(100dvh - 24px);
+      }
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      .video-modal {
+        background: rgba(7, 27, 52, 0.78);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      .video-dialog {
+        width: min(100%, calc((100dvh - 32px) * 1.8605));
+      }
+
+      .video-dialog video {
+        height: auto;
+        min-height: 0;
+      }
     }
 
     body.modal-open {
@@ -2149,7 +2228,6 @@
               <button class="btn js-demo-trigger" type="button" data-i18n="watchDemo">Watch System Demo</button>
               <!-- Replace Platform URL -->
               <a class="btn" href="https://yallasahel.com/app" target="_blank" rel="noopener" data-i18n="openPlatform">Open Platform</a>
-              <a class="btn" href="/dashboard-preview" data-i18n="exploreDashboard">Explore Dashboard</a>
             </div>
             <div class="live-operations" aria-label="Live Operations">
               <span class="operations-live"><i aria-hidden="true"></i><span data-i18n="liveOperations">Live Operations</span></span>
@@ -2232,7 +2310,6 @@
           <div class="demo-caption">
             <strong data-i18n="demoCaption">Yalla Sahel System Walkthrough</strong>
             <span data-i18n="demoHint">A quick look at the live operating workflow.</span>
-            <a class="btn" href="/dashboard-preview" data-i18n="exploreDashboard">Explore Dashboard</a>
           </div>
         </article>
       </section>
@@ -2359,7 +2436,7 @@
       </button>
       <h2 id="videoModalTitle" class="sr-only" data-i18n="videoTitle">Yalla Sahel System Demo</h2>
       <!-- Replace Demo Video Path -->
-      <video id="demoVideo" controls loop playsinline preload="metadata" width="1920" height="1032" poster="assets/videos/demo-poster.jpg" data-src="assets/videos/demo.mp4"></video>
+      <video id="demoVideo" controls loop playsinline webkit-playsinline x-webkit-airplay="allow" preload="metadata" width="1920" height="1032" poster="assets/videos/demo-poster.jpg" data-src="assets/videos/demo.mp4"></video>
     </div>
   </div>
 
@@ -2425,7 +2502,6 @@
         revenueTracked: 'Revenue Tracked',
         watchDemo: 'Watch System Demo',
         openPlatform: 'Open Platform',
-        exploreDashboard: 'Explore Dashboard',
         demoKicker: 'System Demo',
         demoTitle: 'See Yalla Sahel In Action',
         demoDescription: 'Watch a quick demo of how beach operators manage reservations, QR check-in, memberships, events and reports from one dashboard.',
@@ -2660,7 +2736,6 @@
     });
 
     Object.assign(content.ar, {
-      exploreDashboard: 'استعرض النظام',
       carouselHint: 'اسحب لاستعراض المنصة.',
       previewDashboard: 'نقاط البيع والدفع',
       previewReservations: 'إدارة التذاكر',
@@ -3049,6 +3124,7 @@
 
     const videoModal = document.querySelector('#videoModal');
     const demoVideo = document.querySelector('#demoVideo');
+    const demoThumbnail = document.querySelector('.demo-thumbnail');
     const modalClose = document.querySelector('.modal-close');
 
     function loadDemoVideo() {
@@ -3060,6 +3136,7 @@
 
     function openDemoModal() {
       loadDemoVideo();
+      demoThumbnail?.classList.add('is-playing');
       videoModal.classList.add('is-open');
       videoModal.setAttribute('aria-hidden', 'false');
       document.body.classList.add('modal-open');
@@ -3072,6 +3149,17 @@
       videoModal.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('modal-open');
       demoVideo.pause();
+    }
+
+    const demoSection = document.querySelector('#system-demo');
+    if ('IntersectionObserver' in window && demoSection) {
+      const demoVideoObserver = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          loadDemoVideo();
+          demoVideoObserver.disconnect();
+        }
+      }, { rootMargin: '180px 0px', threshold: 0.1 });
+      demoVideoObserver.observe(demoSection);
     }
 
     document.querySelectorAll('.js-demo-trigger').forEach(trigger => {
